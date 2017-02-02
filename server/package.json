@@ -12,13 +12,18 @@
   },
   "homepage": "https://github.com/rootis/king-of-the-hill#readme",
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "@types/express": "^4.0.35",
+    "@types/node": "^7.0.4",
+    "nodemon": "^1.11.0",
+    "typescript": "^2.1.5"
   },
   "dependencies": {
     "express": "^4.14.1",
     "mongodb": "^2.2.22"
   },
   "scripts": {
+    "compile": "tsc",
+    "postinstall": "npm run compile",
     "start-dev": "nodemon -L ./src/index.js",
     "start": "node ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
