@@ -6,7 +6,7 @@ client/*.iml
 
 server/npm-debug.log
 server/node_modules
-server/*/*.js
-server/*/*.js.map
+*.js
+*.js.map
 server/.idea
 server/*.iml

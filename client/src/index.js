@@ -13,11 +13,12 @@ ReactDOM.render(
     <Router history={browserHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={Home}/>
-            <Route path="create-quiz" component={CreateQuiz} />
-            <Route path="join-quiz" component={JoinQuiz} />
-            <Route path="quiz" component={Quiz} />
-            <Route path="view-results" component={ViewResults} />
-            <Route path="results" component={Results} />
+            <Route path="/create-quiz" component={CreateQuiz} />
+            <Route path="/join-quiz" component={JoinQuiz} />
+            <Route path="/quiz" component={Quiz} />
+            <Route path="/view-results" component={ViewResults} />
+            <Route path="/results" component={Results} />
+            <Route path='*' component={Home} />
         </Route>
     </Router>,
     document.getElementById('root')
