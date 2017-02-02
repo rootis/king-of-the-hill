@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/rootis/king-of-the-hill/issues"
   },
-  "homepage": "https://github.com/rootis/king-of-the-hill#readme",
+  "homepage": "/",
   "devDependencies": {
     "react-scripts": "0.8.5"
   },
