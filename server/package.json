@@ -1,0 +1,21 @@
+{
+  "name": "king-of-the-hill-server",
+  "description": "King of the Hill back end",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rootis/king-of-the-hill.git"
+  },
+  "author": "Rutenis Turcinas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rootis/king-of-the-hill/issues"
+  },
+  "homepage": "https://github.com/rootis/king-of-the-hill#readme",
+  "dependencies": {
+    "express": "^4.14.1",
+    "mongodb": "^2.2.22"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

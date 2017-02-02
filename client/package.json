@@ -1,0 +1,27 @@
+{
+  "name": "king-of-the-hill-client",
+  "description": "King of the Hill front end",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rootis/king-of-the-hill.git"
+  },
+  "author": "Rutenis Turcinas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rootis/king-of-the-hill/issues"
+  },
+  "homepage": "https://github.com/rootis/king-of-the-hill#readme",
+  "devDependencies": {
+    "react-scripts": "0.8.5"
+  },
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
