@@ -15,7 +15,7 @@ export default class Question extends Component {
     };
 
     updateEvent(event) {
-        if (event.target.name.indexOf(this.props.name) === -1) {
+        if (event.target.name.indexOf(this.props.name + '.') === -1) {
             event.target.name = this.props.name + '.' + event.target.name;
         }
         return event;

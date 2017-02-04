@@ -24,6 +24,17 @@ export default class Answers extends Component {
         };
     }
 
+    handleChange = (event) => {
+        this.props.onChange(this.updateEvent(event));
+    };
+
+    updateEvent(event) {
+        if (event.target.name.indexOf(this.props.name) === -1) {
+            event.target.name = this.props.name + '.' + event.target.name;
+        }
+        return event;
+    }
+
     removeAnswer = (answerId) => {
         delete this.props.value[answerId];
         this.props.onChange(this.createUpdateEvent());
@@ -32,7 +43,7 @@ export default class Answers extends Component {
     getNewAnswer() {
         this.lastId++;
         let result = new AnswerEntity();
-        result._id = this.lastId.toString();
+        result._id = this.lastId.toString() + 'a';
         result.text = 'Answa: ' + result._id;
         return result;
     }

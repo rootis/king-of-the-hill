@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "./Answer.css";
 import Input from "../../../components/input/Input";
 
-export default class Question extends Component {
+export default class Answer extends Component {
 
     handleChange = (event) => {
         this.props.onChange(this.updateEvent(event));
