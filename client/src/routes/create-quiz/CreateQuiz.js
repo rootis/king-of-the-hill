@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Button from "../../components/button/Button";
+import CreateQuizForm from "./create-quiz-form/CreateQuizForm";
 
 export default class CreateQuiz extends Component {
 
@@ -7,7 +7,7 @@ export default class CreateQuiz extends Component {
         return (
             <div>
                 <h1>Create</h1>
-                <Button link="/" text="Cancel"/>
+                <CreateQuizForm/>
             </div>
         );
     }

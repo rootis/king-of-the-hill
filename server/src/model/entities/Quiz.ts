@@ -1,6 +1,7 @@
 export default class Quiz {
 
-    id: number;
+    _id: number;
+    code: string;
     title: string;
     prize: string;
 

@@ -15,7 +15,7 @@ ReactDOM.render(
             <IndexRoute component={Home}/>
             <Route path="/create-quiz" component={CreateQuiz} />
             <Route path="/join-quiz" component={JoinQuiz} />
-            <Route path="/quiz" component={Quiz} />
+            <Route path="/quiz/:id" component={Quiz} />
             <Route path="/view-results" component={ViewResults} />
             <Route path="/results" component={Results} />
             <Route path='*' component={Home} />

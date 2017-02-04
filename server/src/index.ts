@@ -6,10 +6,12 @@ import QuizController from "./controllers/QuizController";
 
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app: Application = express();
 const publicClientDir: string = '../public';
 
+app.use(bodyParser.json());
 app.use(express.static(publicClientDir));
 
 new QuizController(app);
