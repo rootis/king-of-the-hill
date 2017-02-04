@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import "./Question.css";
+import Answers from "../answers/Answers";
 
 export default class Question extends Component {
 
@@ -26,7 +27,8 @@ export default class Question extends Component {
     render() {
         return (
             <div className="Question-box">
-                <p>{this.props.value.text}</p>
+                <p>{this.props.value.text}. Score: {this.props.value.score}</p>
+                <Answers value={this.props.value.answers} />
             </div>
         );
     }

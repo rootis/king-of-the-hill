@@ -45,6 +45,7 @@ export default class Answers extends Component {
         let result = new AnswerEntity();
         result._id = this.lastId.toString() + 'a';
         result.text = 'Answa: ' + result._id;
+        result.isCorrect = false;
         return result;
     }
 
@@ -53,7 +54,7 @@ export default class Answers extends Component {
             <div>
                 <h1 onClick={this.addAnswer}>Answers. Click to add</h1>
                 {Object.keys(this.props.value).map((key) =>
-                    <Answer key={key} name={key} onChange={this.handleChange} removeAnswer={this.removeAnswer} value={this.props.value[key]}/>
+                    <Answer key={key} name={key} onChange={this.handleChange} removeAnswer={this.removeAnswer} type={this.props.type} value={this.props.value[key]}/>
                 )}
             </div>
         );

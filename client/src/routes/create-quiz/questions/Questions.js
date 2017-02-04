@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Question from "../question/Question";
 import QuestionEntity from "../../../model/entities/QuestionEntity";
+import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
 
 export default class Questions extends Component {
 
@@ -36,6 +37,7 @@ export default class Questions extends Component {
         let result = new QuestionEntity();
         result._id = this.lastId.toString();
         result.text = 'Question with id: ' + result._id;
+        result.type = QuestionTypeEnum.CHECKBOX;
         return result;
     };
 

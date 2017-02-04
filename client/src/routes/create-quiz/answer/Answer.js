@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import "./Answer.css";
-import Input from "../../../components/input/Input";
+import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
+import Input from "../../../components/input/InputUncontrolled";
+import Checkbox from "../../../components/checkbox/Checkbox";
+import Radio from "../../../components/radio/Radio";
 
 export default class Answer extends Component {
 
@@ -24,8 +27,17 @@ export default class Answer extends Component {
             <div className="Answer-box">
                 <h1 onClick={this.removeAnswer}>X</h1>
                 <Input label="Answer text" onChange={this.handleChange} name="text" value={this.props.value.text}/>
+                {this.getCorrectAnswerComponent()}
             </div>
         );
+    }
+
+    getCorrectAnswerComponent() {
+        if (this.props.type === QuestionTypeEnum.CHECKBOX) {
+            return <Checkbox label="Is it correct answer?" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />;
+        } else {
+            return <Radio label="Is it correct answer?" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />
+        }
     }
 
 }
