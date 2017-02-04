@@ -13,7 +13,6 @@ export default class Question extends Component {
     };
 
     handleChange = (event) => {
-        console.log(event.target.name);
         if (event.target.name.indexOf('isCorrect') > -1) {
             this.checkCorrectAnswersByQuestionType();
         }
