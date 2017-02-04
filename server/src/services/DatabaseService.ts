@@ -1,8 +1,9 @@
 'use strict';
 
-import {Cursor, Db, InsertOneWriteOpResult, MongoClient} from "mongodb";
+import {Cursor, Db, InsertOneWriteOpResult, MongoClient, ObjectID} from "mongodb";
 
-const mongoClient: MongoClient = require('mongodb').MongoClient;
+const mongo = require('mongodb');
+const mongoClient: MongoClient = mongo.MongoClient;
 
 export default class DatabaseService {
 
@@ -48,6 +49,11 @@ export default class DatabaseService {
                 cursor.forEach((doc: any) => result.push(doc), () => resolve(result));
             })
         });
+    }
+
+    static findByObjectId(collection: string, id: string): Promise<any[]> {
+        let objectId: ObjectID = new mongo.ObjectID(id);
+        return DatabaseService.find(collection, {_id: objectId});
     }
 
 }

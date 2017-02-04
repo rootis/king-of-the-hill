@@ -15,13 +15,13 @@ export default class QuizController {
     }
 
     getQuiz = (request: Request, response: Response): void => {
-        let quiz: Quiz = null;
-
-        if (request && request.params && request.params.id) {
-            quiz = this.quizService.getQuiz(parseInt(request.params.id));
+        if (request && request.params && request.params.quizCode) {
+            this.quizService.getQuizByCode(request.params.quizCode).then((quiz: Quiz) => {
+                response.send(quiz);
+            }).catch((err) => response.status(500).send(err));
+        } else {
+            response.status(500).send({error: 'Participant not found'});
         }
-
-        response.send(quiz ? quiz : {error: 'Quiz not found'});
     };
 
     postQuiz = (request: Request, response: Response): void => {
@@ -39,7 +39,7 @@ export default class QuizController {
     private registerRoutes(app: Application): void {
         let urlPrefix: string = '/api/quiz';
 
-        app.get(urlPrefix + '/:id', this.getQuiz);
+        app.get(urlPrefix + '/:quizCode', this.getQuiz);
         app.post(urlPrefix, this.postQuiz);
         app.post(urlPrefix + '/join', this.joinQuiz);
     }

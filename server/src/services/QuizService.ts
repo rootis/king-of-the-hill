@@ -11,12 +11,12 @@ export default class QuizService {
     static QUIZ_COLLECTION: string = 'quiz';
     static QUIZ_PARTICIPANT_COLLECTION: string = 'quiz_participant';
 
-    getQuiz(id: number): Quiz {
-        let result: Quiz = new Quiz();
-        result.title = 'uga';
-        result.prize = 'praiz';
-
-        return result;
+    getQuizByCode(code: string): Promise<Quiz> {
+        return new Promise<Quiz>(function (resolve: (quiz: Quiz) => void) {
+            DatabaseService.find(QuizService.QUIZ_COLLECTION, {code: code}).then((results: any[]) => {
+                resolve(results && results.length > 0 ? results[0] : null)
+            });
+        });
     }
 
     save(quiz: Quiz): Promise<Quiz> {
