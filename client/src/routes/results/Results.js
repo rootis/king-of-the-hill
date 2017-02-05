@@ -9,8 +9,27 @@ export default class Results extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.loadQuizInfo();
         this.loadInfo();
     }
+
+    loadQuizInfo = () => {
+        fetch('/api/quiz/' + this.props.params.quizCode, {
+            method: "GET"
+        }).then(response => response.json().then(json => ({
+                status: response.status,
+                json
+            })
+        )).then((response) => {
+            if (response.status >= 400) {
+                this.setState({errors: response.json});
+            } else {
+                this.setState({quizTitle: response.json.title});
+            }
+        }, function (error) {
+            console.error(error);
+        });
+    };
 
     loadInfo = () => {
         fetch('/api/board/' + this.props.params.quizCode, {
@@ -41,8 +60,9 @@ export default class Results extends Component {
         return (
             <div>
                 <Logo/>
-                <h1>Results {this.state.participants ? this.state.participants.length : 0}</h1>
-                <span className="Results-title"></span>
+                <div className="Results-title-box">
+                    <span className="Results-title">{this.state.quizTitle}</span>
+                </div>
                 <Participants value={this.state.participants}/>
                 <Button link="/" text="Home Page"/>
             </div>

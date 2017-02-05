@@ -23,7 +23,7 @@ export default class ViewResults extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        fetch('/api/board/' + this.state.inputForm.quizCode, {
+        fetch('/api/quiz/' + this.state.inputForm.quizCode, {
             method: "GET"
         }).then(response => response.json().then(json => ({
                 status: response.status,
@@ -33,7 +33,7 @@ export default class ViewResults extends Component {
             if (response.status >= 400) {
                 this.setState({errors: response.json});
             } else {
-                browserHistory.push('/results/' + this.state.inputForm.quizCode);
+                browserHistory.push('/results/' + response.json.code);
             }
         }, function (error) {
             console.error(error);

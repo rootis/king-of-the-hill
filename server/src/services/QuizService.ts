@@ -11,8 +11,12 @@ export default class QuizService {
     getQuizByCode(code: string): Promise<Quiz> {
         return new Promise<Quiz>(function (resolve: (quiz: Quiz) => void, reject: (value: any) => void) {
             DatabaseService.find(QuizService.QUIZ_COLLECTION, {code: code}).then((results: any[]) => {
-                resolve(results && results.length > 0 ? results[0] : null)
-            }).catch((err) => reject(err));
+                if (results && results.length > 0) {
+                    resolve(results[0]);
+                } else {
+                    reject({quizCode: "Quiz not found"});
+                }
+            }).catch((err) => reject({quizCode: "Quiz not found"}));
         });
     }
 

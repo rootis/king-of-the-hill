@@ -19,7 +19,7 @@ export default class QuizController {
                 response.send(quiz);
             }).catch((err) => response.status(500).send(err));
         } else {
-            response.status(500).send({error: 'Participant not found'});
+            response.status(500).send({error: 'Quiz not found'});
         }
     };
 
