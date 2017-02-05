@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import {browserHistory} from "react-router";
 import FormUtils from "../../utils/FormUtils";
+import Logo from "../../components/logo/Logo";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
+import "./ViewResults.css";
 
 export default class ViewResults extends Component {
 
@@ -41,9 +43,11 @@ export default class ViewResults extends Component {
     render() {
         return (
             <div>
-                <h1>View</h1>
-                <Form onSubmit={this.handleSubmit} submitText="View results">
-                    <Input label="Quiz code" error={this.state.errors['quizCode']} onChange={this.handleChange} name="quizCode" value={this.state.inputForm.quizCode}/>
+                <Logo bottomSpacing={true}/>
+                <Form onSubmit={this.handleSubmit} submitText="View Results">
+                    <div className="ViewResults">
+                        <Input label="QUIZ CODE" error={this.state.errors['quizCode']} onChange={this.handleChange} name="quizCode" value={this.state.inputForm.quizCode}/>
+                    </div>
                 </Form>
             </div>
         );
