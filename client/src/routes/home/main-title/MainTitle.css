@@ -1,0 +1,19 @@
+.MainTitle-box {
+    margin-top: 60px;
+}
+
+.MainTitle-bigger {
+    color: #373737;
+    font-size: 2.2em;
+    letter-spacing: 2px;
+}
+
+.MainTitle-smaller-title-box {
+    margin-top: 20px;
+}
+
+.MainTitle-smaller {
+    color: #373737;
+    font-size: 1.7em;
+    font-weight: bolder;
+}

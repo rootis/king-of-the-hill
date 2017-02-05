@@ -1,13 +1,20 @@
 import React, {Component} from "react";
-import {Link} from "react-router";
+import {browserHistory} from "react-router";
+import "./Button.css";
 
 export default class Button extends Component {
 
+    handleNavigation = () => {
+        if (this.props.link) {
+            browserHistory.push(this.props.link);
+        }
+    };
+
     render() {
         return (
-            <button>
-                <Link to={this.props.link}>{this.props.text}</Link>
-            </button>
+            <span className="Button" onClick={this.handleNavigation}>
+                {this.props.text}
+            </span>
         );
     }
 
