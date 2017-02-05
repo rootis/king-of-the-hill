@@ -44,9 +44,13 @@ export default class Quiz extends Component {
 
     resetAnswers(questions) {
         for (let questionKey in questions) {
-            let question = questions[questionKey];
-            for (let answerKey in question.answers) {
-                question.answers[answerKey].isCorrect = false;
+            if (questions.hasOwnProperty(questionKey)) {
+                let question = questions[questionKey];
+                for (let answerKey in question.answers) {
+                    if (question.answers.hasOwnProperty(answerKey)) {
+                        question.answers[answerKey].isCorrect = false;
+                    }
+                }
             }
         }
     }
