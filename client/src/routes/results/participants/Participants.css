@@ -1,0 +1,32 @@
+.Participants-box {
+    margin: auto;
+    margin-bottom: 30px;
+    max-width: 800px;
+}
+
+.Participants-box table, .Participants-box th, .Participants-box table td {
+    border: 1px solid #d7d7d7;
+    color: #373737;
+    padding: 12px;
+}
+
+.Participants-box table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.Participants-box table th {
+    background: #e9e9ff;
+}
+
+.Participants-box table tr:nth-child(even) {
+    background: #f7f7f7;
+}
+
+.Participants-box table {
+    width: 100%;
+}
+
+.Participants-box table tbody td:first-child {
+    width: 100px;
+}

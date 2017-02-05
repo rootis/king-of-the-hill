@@ -58,7 +58,7 @@ export default class Results extends Component {
 
     render() {
         return (
-            <div>
+            <div className="Results-box">
                 <Logo/>
                 <div className="Results-title-box">
                     <span className="Results-title">{this.state.quizTitle}</span>
