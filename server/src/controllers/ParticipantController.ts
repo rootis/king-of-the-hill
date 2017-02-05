@@ -2,6 +2,7 @@
 
 import {Application, Request, Response} from "express-serve-static-core";
 import ParticipantService from "../services/ParticipantService";
+import ParticipantQuiz from "../model/forms/ParticipantQuiz";
 import Participant from "../model/entities/Participant";
 
 export default class ParticipantController {
@@ -12,20 +13,34 @@ export default class ParticipantController {
         this.registerRoutes(app);
     }
 
-    getParticipant = (request: Request, response: Response): void => {
+    createParticipant = (request: Request, response: Response): void => {
+        this.participantService.validateAndSave(request.body).then((participant: Participant) => {
+            response.send(participant);
+        }).catch((err) => response.status(500).send(err));
+    };
+
+    getParticipantQuiz = (request: Request, response: Response): void => {
         if (request && request.params && request.params.id) {
-            this.participantService.getParticipant(request.params.id).then((participant: Participant) => {
-                response.send(participant);
+            this.participantService.getParticipantQuiz(request.params.id).then((participantQuiz: ParticipantQuiz) => {
+                response.send(participantQuiz);
             }).catch((err) => response.status(500).send(err));
         } else {
             response.status(500).send({error: 'Participant not found'});
         }
     };
 
+    postAnswer = (request: Request, response: Response): void => {
+        this.participantService.applyAnswer(request.body).then((participantQuiz: ParticipantQuiz) => {
+            response.send(participantQuiz);
+        }).catch((err) => response.status(500).send(err));
+    };
+
     private registerRoutes(app: Application): void {
         let urlPrefix: string = '/api/participant';
 
-        app.get(urlPrefix + '/:id', this.getParticipant);
+        app.post(urlPrefix + '/create', this.createParticipant);
+        app.get(urlPrefix + '/:id', this.getParticipantQuiz);
+        app.post(urlPrefix + '/answer', this.postAnswer);
     }
 
 }

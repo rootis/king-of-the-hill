@@ -4,7 +4,6 @@ import {Application, Request, Response} from "express-serve-static-core";
 
 import Quiz from "../model/entities/Quiz";
 import QuizService from "../services/QuizService";
-import JoinQuiz from "../model/forms/JoinQuiz";
 
 export default class QuizController {
 
@@ -30,18 +29,11 @@ export default class QuizController {
         }).catch((err) => response.status(500).send(err));
     };
 
-    joinQuiz = (request: Request, response: Response): void => {
-        this.quizService.joinQuiz(request.body).then((joinQuiz: JoinQuiz) => {
-            response.send(joinQuiz)
-        }).catch((err) => response.status(500).send(err));
-    };
-
     private registerRoutes(app: Application): void {
         let urlPrefix: string = '/api/quiz';
 
         app.get(urlPrefix + '/:quizCode', this.getQuiz);
         app.post(urlPrefix, this.postQuiz);
-        app.post(urlPrefix + '/join', this.joinQuiz);
     }
 
 }

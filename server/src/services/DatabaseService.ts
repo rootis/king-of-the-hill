@@ -1,6 +1,7 @@
 'use strict';
 
-import {Cursor, Db, InsertOneWriteOpResult, MongoClient, ObjectID} from "mongodb";
+import {Cursor, Db, FindAndModifyWriteOpResultObject, InsertOneWriteOpResult, MongoClient, ObjectID} from "mongodb";
+import {AbstractEntity} from "../model/entities/AbstractEntity";
 
 const mongo = require('mongodb');
 const mongoClient: MongoClient = mongo.MongoClient;
@@ -29,13 +30,25 @@ export default class DatabaseService {
     }
 
     static insert<T>(collection: string, entity: T): Promise<T> {
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve: (value: T) => void, reject: (value: any) => void) {
             DatabaseService.getInstance().then((db: Db) => {
-                db.collection(collection).insertOne(entity, function (err: any, result: InsertOneWriteOpResult) {
+                db.collection(collection).insertOne(entity, {w: 1}, function (err: any, result: InsertOneWriteOpResult) {
                     if (err || !result || !result.ops || result.ops.length == 0) {
                         reject(err);
                     }
                     resolve(result.ops[0]);
+                });
+            }).catch((err: any) => reject(err));
+        });
+    }
+
+    static update(collection: string, entity: AbstractEntity): Promise<AbstractEntity> {
+        return new Promise(function (resolve: (value: AbstractEntity) => void, reject: (value: any) => void) {
+            DatabaseService.getInstance().then((db: Db) => {
+                db.collection(collection).findOneAndUpdate({_id: entity._id}, {$set: entity}, function (err: any, result: FindAndModifyWriteOpResultObject) {
+                    if (result && result.value) {
+                        resolve(result.value);
+                    }
                 });
             }).catch((err: any) => reject(err));
         });

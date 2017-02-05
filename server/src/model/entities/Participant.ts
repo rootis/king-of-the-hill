@@ -2,7 +2,9 @@ import {AbstractEntity} from "./AbstractEntity";
 
 export default class Participant extends AbstractEntity {
 
-    participantId: string;
+    participantName: string;
     quizCode: string;
+    answeredQuestionIds: string[] = [];
+    totalScore: number;
 
 }

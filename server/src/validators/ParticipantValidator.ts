@@ -1,18 +1,19 @@
 'use strict';
-import JoinQuiz from "../model/forms/JoinQuiz";
+
 import {AbstractValidator} from "./AbstractValidator";
 import DatabaseService from "../services/DatabaseService";
 import QuizService from "../services/QuizService";
+import Participant from "../model/entities/Participant";
 
-export default class JoinQuizValidator extends AbstractValidator {
+export default class ParticipantValidator extends AbstractValidator {
 
-    constructor(joinQuiz: JoinQuiz) {
-        super(joinQuiz);
+    constructor(participant: Participant) {
+        super(participant);
     }
 
     validate(): Promise<boolean> {
         this.validateRequired('quizCode', 'Quiz code is required');
-        this.validateParticipantId();
+        this.validateParticipantName();
 
         return new Promise((resolve: (value: boolean) => void, reject: (value: { [key: string]: string }) => void): void => {
             let searchBy: any = {code: this.object['quizCode']};
@@ -28,10 +29,10 @@ export default class JoinQuizValidator extends AbstractValidator {
         this.applyValidationResults(resolve, reject);
     }
 
-    private validateParticipantId(): void {
-        this.validateRequired('participantId', 'Participant name is required');
-        this.validateTooLong('participantId', 50, 'Participant name is too long');
-        this.validateTooShort('participantId', 3, 'Participant name is too short');
+    private validateParticipantName(): void {
+        this.validateRequired('participantName', 'Participant name is required');
+        this.validateTooLong('participantName', 50, 'Participant name is too long');
+        this.validateTooShort('participantName', 3, 'Participant name is too short');
     }
 
-}
+};
