@@ -9,8 +9,13 @@ export default class Results extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.keepLoadingInformation = true;
         this.loadQuizInfo();
         this.loadInfo();
+    }
+
+    componentWillUnmount() {
+        this.keepLoadingInformation = false;
     }
 
     loadQuizInfo = () => {
@@ -39,6 +44,7 @@ export default class Results extends Component {
                 json
             })
         )).then((response) => {
+            this.setLoadInfoTimeout();
             if (response.status >= 400) {
                 this.setState({errors: response.json});
             } else {
@@ -49,11 +55,16 @@ export default class Results extends Component {
         });
     };
 
+    setLoadInfoTimeout = () => {
+        if (this.keepLoadingInformation) {
+            setTimeout(this.loadInfo, 5000);
+        }
+    };
+
     updateBoard = (board) => {
         this.setState({
             participants: board.participants
         });
-        setTimeout(this.loadInfo, 5000);
     };
 
     render() {
