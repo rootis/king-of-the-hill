@@ -66,7 +66,7 @@ export default class DatabaseService {
                 let cursor: Cursor = db.collection(collection).find(searchFields);
 
                 cursor.forEach((doc: any) => result.push(doc), () => resolve(result));
-            })
+            }).catch((err) => reject(err));
         });
     }
 

@@ -17,7 +17,7 @@ ReactDOM.render(
             <Route path="/join-quiz" component={JoinQuiz} />
             <Route path="/quiz/:id" component={Quiz} />
             <Route path="/view-results" component={ViewResults} />
-            <Route path="/results" component={Results} />
+            <Route path="/results/:quizCode" component={Results} />
             <Route path='*' component={Home} />
         </Route>
     </Router>,

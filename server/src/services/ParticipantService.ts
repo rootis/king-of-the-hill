@@ -14,6 +14,8 @@ export default class ParticipantService {
 
     static PARTICIPANT_COLLECTION: string = 'quiz_participant';
 
+    private quizService: QuizService = new QuizService();
+
     validateAndCreateOrLoad(participant: Participant): Promise<Participant> {
         return new Promise<Participant>((resolve: (value: Participant) => void, reject: (value: any) => void) => {
             this.validateParticipant(participant).then(() => {
@@ -39,12 +41,10 @@ export default class ParticipantService {
     }
 
     getParticipantQuiz(id: string): Promise<ParticipantQuiz> {
-        let quizService: QuizService = new QuizService();
-
         return new Promise<ParticipantQuiz>((resolve: (participantQuiz: ParticipantQuiz) => void, reject: (value: any) => void) => {
             this.getParticipant(id).then((participant: Participant) => {
                 if (participant != null) {
-                    quizService.getQuizByCode(participant.quizCode).then((quiz: Quiz) => {
+                    this.quizService.getQuizByCode(participant.quizCode).then((quiz: Quiz) => {
                         if (quiz != null) {
                             resolve(this.cleanAnsweredQuestionsAndDecreaseScores(participant, quiz));
                         } else {
@@ -55,6 +55,18 @@ export default class ParticipantService {
                     reject({error: 'Participant not found'});
                 }
             }).catch((err) => reject(err));
+        });
+    }
+
+    getOrderedParticipantsByQuizCode(quizCode: string): Promise<Participant[]> {
+        return new Promise<Participant[]>((resolve: (participants: Participant[]) => void, reject: (value: any) => void) => {
+            this.quizService.getQuizByCode(quizCode).then((quiz: Quiz) => {
+                DatabaseService.find(ParticipantService.PARTICIPANT_COLLECTION, {quizCode: quiz.code}).then((results: any[]) => {
+                    resolve(this.orderParticipants(results ? results : []));
+                }).catch((err) => reject(err));
+            }).catch((err: any) => {
+                reject({quizCode: 'Quiz not found'});
+            });
         });
     }
 
@@ -80,6 +92,22 @@ export default class ParticipantService {
                 }
             }).catch((err) => reject(err));
         });
+    };
+
+    private orderParticipants(participants: Participant[]): Participant[] {
+        return participants.sort(this.compare);
+    }
+
+    private compare = (participant1: Participant, participant2: Participant): number => {
+        let result: number = 0;
+
+        if ((typeof participant1.totalScore === 'undefined' && typeof participant1.totalScore !== 'undefined') || (!participant1.totalScore && participant2.totalScore) || (parseInt(<any>participant1.totalScore, 10) < parseInt(<any>participant2.totalScore, 10))) {
+            result = 1;
+        } else if ((typeof participant1.totalScore !== 'undefined' && typeof participant1.totalScore === 'undefined') || (participant1.totalScore && !participant2.totalScore) || (parseInt(<any>participant1.totalScore, 10) > parseInt(<any>participant2.totalScore, 10))) {
+            result = -1
+        }
+
+        return result;
     };
 
     private update(participant: Participant): Promise<Participant> {

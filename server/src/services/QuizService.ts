@@ -9,10 +9,10 @@ export default class QuizService {
     static QUIZ_COLLECTION: string = 'quiz';
 
     getQuizByCode(code: string): Promise<Quiz> {
-        return new Promise<Quiz>(function (resolve: (quiz: Quiz) => void) {
+        return new Promise<Quiz>(function (resolve: (quiz: Quiz) => void, reject: (value: any) => void) {
             DatabaseService.find(QuizService.QUIZ_COLLECTION, {code: code}).then((results: any[]) => {
                 resolve(results && results.length > 0 ? results[0] : null)
-            });
+            }).catch((err) => reject(err));
         });
     }
 
