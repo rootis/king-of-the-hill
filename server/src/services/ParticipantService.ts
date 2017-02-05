@@ -23,6 +23,7 @@ export default class ParticipantService {
                     if (result) {
                         resolve(result);
                     } else {
+                        participant.totalScore = 0;
                         DatabaseService.insert(ParticipantService.PARTICIPANT_COLLECTION, participant).then((result: Participant) => {
                             resolve(result);
                         });
@@ -101,9 +102,9 @@ export default class ParticipantService {
     private compare = (participant1: Participant, participant2: Participant): number => {
         let result: number = 0;
 
-        if ((typeof participant1.totalScore === 'undefined' && typeof participant1.totalScore !== 'undefined') || (!participant1.totalScore && participant2.totalScore) || (parseInt(<any>participant1.totalScore, 10) < parseInt(<any>participant2.totalScore, 10))) {
+        if ((!participant1.totalScore && participant2.totalScore) || (parseInt(<any>participant1.totalScore, 10) < parseInt(<any>participant2.totalScore, 10))) {
             result = 1;
-        } else if ((typeof participant1.totalScore !== 'undefined' && typeof participant1.totalScore === 'undefined') || (participant1.totalScore && !participant2.totalScore) || (parseInt(<any>participant1.totalScore, 10) > parseInt(<any>participant2.totalScore, 10))) {
+        } else if ((participant1.totalScore && !participant2.totalScore) || (parseInt(<any>participant1.totalScore, 10) > parseInt(<any>participant2.totalScore, 10))) {
             result = -1
         }
 
