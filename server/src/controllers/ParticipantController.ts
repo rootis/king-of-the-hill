@@ -13,8 +13,8 @@ export default class ParticipantController {
         this.registerRoutes(app);
     }
 
-    createParticipant = (request: Request, response: Response): void => {
-        this.participantService.validateAndSave(request.body).then((participant: Participant) => {
+    joinQuiz = (request: Request, response: Response): void => {
+        this.participantService.validateAndCreateOrLoad(request.body).then((participant: Participant) => {
             response.send(participant);
         }).catch((err) => response.status(500).send(err));
     };
@@ -38,7 +38,7 @@ export default class ParticipantController {
     private registerRoutes(app: Application): void {
         let urlPrefix: string = '/api/participant';
 
-        app.post(urlPrefix + '/create', this.createParticipant);
+        app.post(urlPrefix + '/join', this.joinQuiz);
         app.get(urlPrefix + '/:id', this.getParticipantQuiz);
         app.post(urlPrefix + '/answer', this.postAnswer);
     }

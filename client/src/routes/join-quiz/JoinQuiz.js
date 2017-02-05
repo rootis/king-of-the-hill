@@ -22,7 +22,8 @@ export default class JoinQuiz extends Component {
 
     handleJoin = (event) => {
         event.preventDefault();
-        fetch('/api/participant/create', {
+        delete this.state.participant.answeredQuestionIds;
+        fetch('/api/participant/join', {
             method: "POST",
             body: JSON.stringify(this.state.participant),
             headers: {

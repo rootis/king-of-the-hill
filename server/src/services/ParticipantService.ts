@@ -14,7 +14,7 @@ export default class ParticipantService {
 
     static PARTICIPANT_COLLECTION: string = 'quiz_participant';
 
-    validateAndSave(participant: Participant): Promise<Participant> {
+    validateAndCreateOrLoad(participant: Participant): Promise<Participant> {
         return new Promise<Participant>((resolve: (value: Participant) => void, reject: (value: any) => void) => {
             this.validateParticipant(participant).then(() => {
                 this.isParticipantInQuiz(participant).then((result: Participant) => {
@@ -131,7 +131,7 @@ export default class ParticipantService {
     }
 
     private isParticipantInQuiz(participant: Participant): Promise<Participant> {
-        return new Promise<Participant>(function (resolve) {
+        return new Promise<Participant>(function (resolve: (value: Participant) => void) {
             DatabaseService.find(ParticipantService.PARTICIPANT_COLLECTION, participant).then((results: any[]) => {
                 resolve(results && results.length > 0 ? results[0] : null)
             });
