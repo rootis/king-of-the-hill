@@ -3,6 +3,11 @@ import Question from "../question/Question";
 
 export default class Questions extends Component {
 
+    constructor(props) {
+        super(props);
+        this.startTimer();
+    }
+
     handleChange = (event) => {
         this.props.onChange(this.updateEvent(event));
     };
@@ -12,6 +17,29 @@ export default class Questions extends Component {
             event.target.name = this.props.name + '.' + event.target.name;
         }
         return event;
+    }
+
+    startTimer() {
+        setInterval(this.decreaseQuestionScore, 1000);
+    }
+
+    decreaseQuestionScore = () => {
+        let questions = this.props.value;
+        for (let questionId in questions) {
+            if (questions.hasOwnProperty(questionId) && questions[questionId].score) {
+                questions[questionId].score = parseInt(questions[questionId].score, 10) - 1;
+            }
+        }
+        this.props.onChange(this.createUpdateEvent())
+    };
+
+    createUpdateEvent() {
+        return {
+            target: {
+                name: this.props.name,
+                value: this.props.value
+            }
+        };
     }
 
     render() {

@@ -42,6 +42,12 @@ export default class Quiz extends Component {
         });
     };
 
+    updateParticipant = (participant) => {
+        this.setState({
+            participant: participant
+        })
+    };
+
     resetAnswers(questions) {
         for (let questionKey in questions) {
             if (questions.hasOwnProperty(questionKey)) {
@@ -55,16 +61,43 @@ export default class Quiz extends Component {
         }
     }
 
+    startQuiz = () => {
+        fetch('/api/participant/start-quiz', {
+            method: "POST",
+            body: JSON.stringify(this.state.participant),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json().then(json => ({
+                status: response.status,
+                json
+            })
+        )).then((response) => {
+            if (response.status >= 400) {
+                console.error(response.json);
+            } else {
+                console.log(response.json);
+                this.updateParticipant(response.json);
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
+
     render() {
         let content = <h1>Quiz</h1>;
+        let quiz = <h1 onClick={this.startQuiz}>You haven't started yet. Click to start</h1>;
+
+        if (this.state.participant && this.state.participant.startTimeStamp) {
+            quiz = <Questions onChange={this.handleChange} participantId={this.state.participant._id} name="questions" value={this.state.quiz.questions} updateParticipantQuiz={this.updateParticipantQuiz}/>;
+        }
 
         if (this.state.quiz) {
             content = (
                 <div>
                     <h1>Quiz: {this.state.quiz ? this.state.quiz.title : ''}</h1>
-                    <h1>Total
-                        score: {this.state.participant && this.state.participant.totalScore ? this.state.participant.totalScore : '0'}</h1>
-                    <Questions onChange={this.handleChange} participantId={this.state.participant._id} name="questions" value={this.state.quiz.questions} updateParticipantQuiz={this.updateParticipantQuiz}/>
+                    <h1>Total score: {this.state.participant && this.state.participant.totalScore ? this.state.participant.totalScore : '0'}</h1>
+                    {quiz}
                 </div>
             );
         }

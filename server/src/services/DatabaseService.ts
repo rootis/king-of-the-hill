@@ -42,12 +42,17 @@ export default class DatabaseService {
         });
     }
 
-    static update(collection: string, entity: AbstractEntity): Promise<AbstractEntity> {
+    static updateById(collection: string, entity: AbstractEntity): Promise<AbstractEntity> {
         return new Promise(function (resolve: (value: AbstractEntity) => void, reject: (value: any) => void) {
             DatabaseService.getInstance().then((db: Db) => {
-                db.collection(collection).findOneAndUpdate({_id: entity._id}, {$set: entity}, function (err: any, result: FindAndModifyWriteOpResultObject) {
+                let searchBy: any = {_id: new mongo.ObjectID(entity._id)};
+                delete entity._id;
+                db.collection(collection).findOneAndUpdate(searchBy, {$set: entity}, function (err: any, result: FindAndModifyWriteOpResultObject) {
                     if (result && result.value) {
-                        resolve(result.value);
+                        entity._id = result.value._id;
+                        resolve(entity);
+                    } else {
+                        reject({'error': 'unable to update'});
                     }
                 });
             }).catch((err: any) => reject(err));
@@ -59,6 +64,7 @@ export default class DatabaseService {
             DatabaseService.getInstance().then((db: Db) => {
                 let result: any[] = [];
                 let cursor: Cursor = db.collection(collection).find(searchFields);
+
                 cursor.forEach((doc: any) => result.push(doc), () => resolve(result));
             })
         });

@@ -29,6 +29,12 @@ export default class ParticipantController {
         }
     };
 
+    startQuiz = (request: Request, response: Response): void => {
+        this.participantService.startQuiz(request.body).then((participant: Participant) => {
+            response.send(participant);
+        }).catch((err) => response.status(500).send(err));
+    };
+
     postAnswer = (request: Request, response: Response): void => {
         this.participantService.applyAnswer(request.body).then((participantQuiz: ParticipantQuiz) => {
             response.send(participantQuiz);
@@ -40,6 +46,7 @@ export default class ParticipantController {
 
         app.post(urlPrefix + '/join', this.joinQuiz);
         app.get(urlPrefix + '/:id', this.getParticipantQuiz);
+        app.post(urlPrefix + '/start-quiz', this.startQuiz);
         app.post(urlPrefix + '/answer', this.postAnswer);
     }
 

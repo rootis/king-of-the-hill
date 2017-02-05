@@ -46,7 +46,7 @@ export default class ParticipantService {
                 if (participant != null) {
                     quizService.getQuizByCode(participant.quizCode).then((quiz: Quiz) => {
                         if (quiz != null) {
-                            resolve(this.cleanAnsweredQuestions(participant, quiz));
+                            resolve(this.cleanAnsweredQuestionsAndDecreaseScores(participant, quiz));
                         } else {
                             reject({error: 'Quiz not found'});
                         }
@@ -58,12 +58,21 @@ export default class ParticipantService {
         });
     }
 
+    startQuiz(participant: Participant): Promise<Participant> {
+        participant.startTimeStamp = new Date().getTime();
+        return new Promise<Participant>((resolve: (value: Participant) => void, reject: (value: any) => void) => {
+            this.update(participant).then((result: Participant) => {
+                resolve(result)
+            }).catch((err) => reject(err));
+        });
+    }
+
     applyAnswer(answer: QuestionAnswer): Promise<ParticipantQuiz> {
         return new Promise<ParticipantQuiz>((resolve: (value: ParticipantQuiz) => void, reject: (value: any) => void) => {
             this.getParticipantQuiz(answer.participantId).then((participantQuiz: ParticipantQuiz) => {
                 if (participantQuiz != null) {
                     participantQuiz = this.checkAndApplyAnswer(participantQuiz, answer);
-                    DatabaseService.update(ParticipantService.PARTICIPANT_COLLECTION, participantQuiz.participant).then(() => {
+                    this.update(participantQuiz.participant).then(() => {
                         resolve(participantQuiz)
                     }).catch((err) => reject(err));
                 } else {
@@ -72,6 +81,44 @@ export default class ParticipantService {
             }).catch((err) => reject(err));
         });
     };
+
+    private update(participant: Participant): Promise<Participant> {
+        return DatabaseService.updateById(ParticipantService.PARTICIPANT_COLLECTION, participant);
+    }
+
+    private cleanAnsweredQuestionsAndDecreaseScores(participant: Participant, quiz: Quiz): ParticipantQuiz {
+        let result: ParticipantQuiz = this.cleanAnsweredQuestions(participant, quiz);
+
+        return this.recalculateScores(result);
+    }
+
+    private recalculateScores(participantQuiz: ParticipantQuiz): ParticipantQuiz {
+        if (!participantQuiz.participant.startTimeStamp) {
+            return participantQuiz;
+        }
+
+        let amountOfTimeAfterStart: number = this.getAmountOfTimeAfterStart(participantQuiz.participant);
+        this.decreaseScores(participantQuiz.quiz.questions, amountOfTimeAfterStart);
+
+        return participantQuiz;
+    }
+
+    private decreaseScores(questions: { [key: string]: Question }, amountOfTimeAfterStart: number): void {
+        for (let questionId in questions) {
+            if (questions.hasOwnProperty(questionId)) {
+                questions[questionId].score = parseInt(<any>questions[questionId].score, 10) - amountOfTimeAfterStart;
+                if (questions[questionId].score < 0) {
+                    questions[questionId].score = 0;
+                }
+            }
+        }
+    }
+
+    private getAmountOfTimeAfterStart(participant: Participant): number {
+        let milliseconds: number = new Date().getTime() - parseInt(<any>participant.startTimeStamp, 10);
+
+        return Math.floor((milliseconds / 1000));
+    }
 
     private cleanAnsweredQuestions(participant: Participant, quiz: Quiz): ParticipantQuiz {
         if (participant.answeredQuestionIds) {
