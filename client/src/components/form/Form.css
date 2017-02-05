@@ -1,0 +1,14 @@
+.Form {
+}
+
+.Form-children-box {
+    text-align: left;
+}
+
+.Form-controlls-box {
+    margin-top: 30px;
+}
+
+.Form-controlls-box * {
+    margin: 15px;
+}

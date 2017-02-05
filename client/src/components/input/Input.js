@@ -10,12 +10,12 @@ export default class Input extends Component {
 
     render() {
         return (
-            <label>
-                {this.props.label}
-                <br />
-                {this.props.error ? this.props.error : ''}
-                <input type="text" className={this.props.error ? 'Input-error' : ''} onChange={this.props.onChange} name={this.props.name} value={this.state.value}/>
-            </label>
+            <div className={(this.props.floatRight ? ' Input-float-right' : '') + (this.props.floatLeft ? ' Input-float-left' : '')}>
+                <label className="Input-label">
+                    {this.props.error ? this.props.error : this.props.label}
+                </label>
+                <input type="text" className={'Input' + (this.props.error ? ' Input-error' : '')} placeholder={this.props.placeholder} onChange={this.props.onChange} name={this.props.name} value={this.state.value}/>
+            </div>
         );
     }
 

@@ -4,15 +4,18 @@ import "./Button.css";
 
 export default class Button extends Component {
 
-    handleNavigation = () => {
+    handleNavigation = (event) => {
         if (this.props.link) {
             browserHistory.push(this.props.link);
+        }
+        if (this.props.onClick) {
+            this.props.onClick(event);
         }
     };
 
     render() {
         return (
-            <span className="Button" onClick={this.handleNavigation}>
+            <span className={'Button' + (this.props.negative ? ' Button-negative' : '')} onClick={this.handleNavigation}>
                 {this.props.text}
             </span>
         );

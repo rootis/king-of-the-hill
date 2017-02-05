@@ -1,21 +1,29 @@
 .Button {
-    background-color:#276be7;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    display:inline-block;
-    cursor:pointer;
-    color:#ffffff;
+    background-color: #276be7;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
     font-size: 1em;
-    padding:13px;
-    text-decoration:none;
+    padding: 13px;
+    text-decoration: none;
     width: 130px;
 }
 
 .Button:hover {
-    background-color: #3d41e2;
+    background-color: #205bc7;
 }
 
 .Button > * {
     color: white;
     text-decoration: none;
+}
+
+.Button-negative {
+    background-color: #6a6a6a;
+}
+
+.Button-negative:hover {
+    background-color: #555555;
 }

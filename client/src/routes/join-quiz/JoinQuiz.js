@@ -2,8 +2,10 @@ import React, {Component} from "react";
 import {browserHistory} from "react-router";
 import ParticipantEntity from "../../model/entities/ParticipantEntity";
 import FormUtils from "../../utils/FormUtils";
+import Logo from "../../components/logo/Logo";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
+import "./JoinQuiz.css";
 
 export default class JoinQuiz extends Component {
 
@@ -47,11 +49,12 @@ export default class JoinQuiz extends Component {
     render() {
         return (
             <div>
-                <h1>Join</h1>
-                <Form onSubmit={this.handleJoin} submitText="Join">
-                    <Input label="Your name" error={this.state.errors['participantName']} onChange={this.handleChange} name="participantName" value={this.state.participant.participantName}/>
-                    <br/>
-                    <Input label="Quiz code" error={this.state.errors['quizCode']} onChange={this.handleChange} name="quizCode" value={this.state.participant.quizCode}/>
+                <Logo bottomSpacing={true}/>
+                <Form onSubmit={this.handleJoin} submitText="Join Quiz">
+                    <div className="JoinQuiz">
+                        <Input label="YOUR NAME" error={this.state.errors['participantName']} floatLeft={true} placeholder="Name or Nickname" onChange={this.handleChange} name="participantName" value={this.state.participant.participantName}/>
+                        <Input label="QUIZ CODE" error={this.state.errors['quizCode']} floatRight={true} placeholder="Quiz Code" onChange={this.handleChange} name="quizCode" value={this.state.participant.quizCode}/>
+                    </div>
                 </Form>
             </div>
         );

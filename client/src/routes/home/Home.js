@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Logo from "../../components/logo/Logo";
 import MainTitle from "./main-title/MainTitle";
-import GetStarted from "./get-started/GetStarted";
+import HorizontalLine from "../../components/horizontal-line/HorizontalLine";
 import ControllBox from "./controll-box/ControllBox";
 
 export default class HomePage extends Component {
@@ -11,7 +11,7 @@ export default class HomePage extends Component {
             <div>
                 <Logo />
                 <MainTitle />
-                <GetStarted />
+                <HorizontalLine />
                 <ControllBox />
             </div>
         );
