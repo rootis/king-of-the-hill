@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import Button from "../../components/button/Button";
 import Participants from "./participants/Participants";
+import Logo from "../../components/logo/Logo";
+import "./Results.css";
 
 export default class Results extends Component {
 
@@ -38,7 +40,9 @@ export default class Results extends Component {
     render() {
         return (
             <div>
+                <Logo/>
                 <h1>Results {this.state.participants ? this.state.participants.length : 0}</h1>
+                <span className="Results-title"></span>
                 <Participants value={this.state.participants}/>
                 <Button link="/" text="Home Page"/>
             </div>
