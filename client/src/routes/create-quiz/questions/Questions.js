@@ -57,14 +57,14 @@ export default class Questions extends Component {
             <div>
                 <div className={'CreateQuiz-row-box'}>
                     <div className={'CreateQuiz-row-left-box'}>
-                        <span>{this.props.error ? this.props.error : 'QUESTIONS'}</span>
+                        <span>{this.props.error[this.props.name] ? this.props.error[this.props.name] : 'QUESTIONS'}</span>
                     </div>
                     <div className={'CreateQuiz-row-right-box'}>
                         <img onClick={this.addQuestion} src={AddIcon} alt="Add Question"/>
                     </div>
                 </div>
                 {Object.keys(this.props.value).map((key) =>
-                    <Question key={key} name={key} onChange={this.handleChange} removeQuestion={this.removeQuestion} value={this.props.value[key]}/>
+                    <Question key={key} error={this.props.error} name={key} onChange={this.handleChange} removeQuestion={this.removeQuestion} value={this.props.value[key]}/>
                 )}
             </div>
         );

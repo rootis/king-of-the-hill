@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import AnswerEntity from "../../../model/entities/AnswerEntity";
 import Answer from "../answer/Answer";
-import AddIcon from "../add.png";
+import AddIcon from "../add.png"
 
 export default class Answers extends Component {
 
@@ -55,14 +55,14 @@ export default class Answers extends Component {
             <div>
                 <div className={'CreateQuiz-row-box'}>
                     <div className={'CreateQuiz-row-left-box'}>
-                        <span>{this.props.error ? this.props.error : 'ANSWERS'}</span>
+                        <span>{this.props.error[this.props.questionId + '.' + this.props.name] ? this.props.error[this.props.questionId + '.' + this.props.name] : 'ANSWERS'}</span>
                     </div>
                     <div className={'CreateQuiz-row-right-box'}>
                         <img onClick={this.addAnswer} src={AddIcon} alt="Add Answer"/>
                     </div>
                 </div>
                 {Object.keys(this.props.value).map((key) =>
-                    <Answer key={key} name={key} onChange={this.handleChange} removeAnswer={this.removeAnswer} type={this.props.type} value={this.props.value[key]}/>
+                    <Answer key={key} error={this.props.error[this.props.questionId + '.' + this.props.name + '.' + key + '.text']} name={key} onChange={this.handleChange} removeAnswer={this.removeAnswer} type={this.props.type} value={this.props.value[key]}/>
                 )}
             </div>
         );

@@ -49,8 +49,8 @@ export default class Question extends Component {
                         <img onClick={this.removeQuestion} src={RemoveIcon} alt="Remove Question"/>
                     </div>
                 </div>
-                <TextareaWide label="Text" placeholder="Question Text" resize={true} onChange={this.handleChange} name="text" value={this.props.value.text}/>
-                <InputWide label="Score" placeholder="One second -1 point. 300 points will be 0 after 5 min." onChange={this.handleChange} name="score" value={this.props.value.score}/>
+                <TextareaWide label="Text" placeholder="Question Text" error={this.props.error[this.props.value._id + '.text']} resize={true} onChange={this.handleChange} name="text" value={this.props.value.text}/>
+                <InputWide label="Score" placeholder="Every second -1 point. 300 points will be 0 after 5 min." error={this.props.error[this.props.value._id + '.score']} onChange={this.handleChange} name="score" value={this.props.value.score}/>
                 <div className={'CreateQuiz-row-box'}>
                     <div className={'CreateQuiz-row-left-box'}>
                         <span>Answer Type</span>
@@ -59,7 +59,7 @@ export default class Question extends Component {
                         <AnswerType onChange={this.handleChange} name="type" value={this.props.value.type}/>
                     </div>
                 </div>
-                <Answers onChange={this.handleChange} name="answers" type={this.props.value.type} value={this.props.value.answers}/>
+                <Answers onChange={this.handleChange} error={this.props.error} questionId={this.props.value._id} name="answers" type={this.props.value.type} value={this.props.value.answers}/>
             </div>
         );
     }

@@ -17,8 +17,21 @@ export abstract class AbstractValidator {
     }
 
     protected validateRequired(attribute: string, errorMessage: string): boolean {
-        if (!this.object || !this.object[attribute] || (typeof this.object[attribute] === 'string' && this.object[attribute].trim().length == 0)) {
-            this.errors[attribute] = errorMessage;
+        return this.validateRequiredPassingObject(this.object, attribute, '', errorMessage);
+    }
+
+    protected validateRequiredPassingObject(object: any, attribute: string, errorKeyPrefix: string, errorMessage: string): boolean {
+        if (!object || !object[attribute] || (typeof object[attribute] === 'string' && object[attribute].trim().length == 0)) {
+            this.errors[errorKeyPrefix + attribute] = errorMessage;
+            return false;
+        }
+
+        return true;
+    }
+
+    protected validateNumberPassingObject(object: any, attribute: string, errorKeyPrefix: string, errorMessage: string): boolean {
+        if (!object || !object[attribute] || !/^\d+$/.test(object[attribute])) {
+            this.errors[errorKeyPrefix + attribute] = errorMessage;
             return false;
         }
 
@@ -26,18 +39,22 @@ export abstract class AbstractValidator {
     }
 
     protected validateObjectPropertiesRequired(attribute: string, errorMessage: string): boolean {
-        if (!this.object || !this.object[attribute] || typeof this.object[attribute] !== 'object') {
-            this.errors[attribute] = errorMessage;
+        return this.validateObjectPropertiesRequiredPassingObject(this.object, attribute, '', errorMessage);
+    }
+
+    protected validateObjectPropertiesRequiredPassingObject(object: any, attribute: string, errorKeyPrefix: string, errorMessage: string): boolean {
+        if (!object || !object[attribute] || typeof object[attribute] !== 'object') {
+            this.errors[errorKeyPrefix + attribute] = errorMessage;
             return false;
         }
 
-        for (let key in this.object[attribute]) {
-            if (this.object[attribute].hasOwnProperty(key)) {
+        for (let key in object[attribute]) {
+            if (object[attribute].hasOwnProperty(key)) {
                 return true;
             }
         }
 
-        this.errors[attribute] = errorMessage;
+        this.errors[errorKeyPrefix + attribute] = errorMessage;
         return false;
     }
 

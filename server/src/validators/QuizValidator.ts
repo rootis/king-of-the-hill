@@ -1,9 +1,11 @@
 'use strict';
 
-import Quiz from "../model/entities/Quiz";
+import {AbstractValidator} from "./AbstractValidator";
 import DatabaseService from "../services/DatabaseService";
 import QuizService from "../services/QuizService";
-import {AbstractValidator} from "./AbstractValidator";
+import Quiz from "../model/entities/Quiz";
+import Question from "../model/entities/Question";
+import Answer from "../model/entities/Answer";
 
 export default class QuizValidator extends AbstractValidator {
 
@@ -41,7 +43,41 @@ export default class QuizValidator extends AbstractValidator {
     private validateQuestions(): void {
         let attribute: string = 'questions';
 
-        this.validateObjectPropertiesRequired(attribute, 'At least one question is required');
+        if (this.validateObjectPropertiesRequired(attribute, 'At least one question is required')) {
+            for (let key in this.object.questions) {
+                if (this.object.questions.hasOwnProperty(key)) {
+                    this.validateQuestion(this.object.questions[key]);
+                }
+            }
+        }
+    }
+
+    private validateQuestion(question: Question): void {
+        let errorKeyPrefix: string = question._id + '.';
+
+        this.validateRequiredPassingObject(question, 'text', errorKeyPrefix, 'Text is required');
+        if (this.validateRequiredPassingObject(question, 'score', errorKeyPrefix, 'Score is required')) {
+            this.validateNumberPassingObject(question, 'score', errorKeyPrefix, 'Score should be a number');
+        }
+        this.validateAnswers(question);
+    }
+
+    private validateAnswers(question: Question): void {
+        let errorKeyPrefix: string = question._id + '.';
+
+        if (this.validateObjectPropertiesRequiredPassingObject(question, 'answers', errorKeyPrefix, 'At least one answer is required')) {
+            for (let key in question.answers) {
+                if (question.answers.hasOwnProperty(key)) {
+                    this.validateAnswer(question.answers[key], errorKeyPrefix);
+                }
+            }
+        }
+    }
+
+    private validateAnswer(answer: Answer, keyPrefix: string): void {
+        let errorKeyPrefix: string = keyPrefix + 'answers' + '.' + answer._id + '.';
+
+        this.validateRequiredPassingObject(answer, 'text', errorKeyPrefix, 'Text is required');
     }
 
 }

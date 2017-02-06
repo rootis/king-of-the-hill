@@ -9,7 +9,7 @@ export default class QuizCode extends Component {
                 <h1>Your quiz code is: {this.props.code}</h1>
                 <h3>Please, don't loose it, because there is no way back...</h3>
                 <br />
-                <Button link="/" text="Home"/>
+                <Button link="/" text="Home Page"/>
             </div>
         );
     }
