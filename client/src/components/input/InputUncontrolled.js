@@ -5,7 +5,7 @@ export default class InputUncontrolled extends Component {
 
     render() {
         return (
-            <input type="text" className={'Input Input-uncontrolled ' + (this.props.error ? ' Input-error' : '')} onChange={this.props.onChange} name={this.props.name} value={this.props.value}/>
+            <input type="text" className={'Input Input-uncontrolled ' + (this.props.error ? ' Input-error' : '')} placeholder={this.props.placeholder} onChange={this.props.onChange} name={this.props.name} value={this.props.value}/>
         );
     }
 

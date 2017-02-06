@@ -31,7 +31,7 @@ export default class Answer extends Component {
                         <img onClick={this.removeAnswer} src={RemoveIcon} alt="Remove Answer"/>
                     </div>
                     <div className={'CreateQuiz-row-right-box'}>
-                        <Input onChange={this.handleChange} name="text" value={this.props.value.text}/>
+                        <Input onChange={this.handleChange} placeholder="Answer Text" name="text" value={this.props.value.text}/>
                         {this.getCorrectAnswerComponent()}
                     </div>
                 </div>
