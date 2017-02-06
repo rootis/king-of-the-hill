@@ -4,7 +4,7 @@ import QuizCode from "../quiz-code/QuizCode";
 import Form from "../../../components/form/Form";
 import HorizontalLine from "../../../components/horizontal-line/HorizontalLine";
 import InputWide from "../../../components/input-wide/InputWide";
-import Textarea from "../../../components/textarea/Textarea";
+import TextareaWide from "../../../components/textarea-wide/TextareaWide";
 import Questions from "../questions/Questions";
 import FormUtils from "../../../utils/FormUtils";
 
@@ -58,10 +58,8 @@ export default class CreationForm extends Component {
                 <Form onSubmit={this.handleSave} submitText="Create">
                     <HorizontalLine smallMargins={true}/>
                     <InputWide label="QUIZ TITLE" error={this.state.errors['title']} placeholder="Unique Quiz Title" onChange={this.handleChange} name="title" value={this.state.quiz.title}/>
-                    <br/>
-                    <br/>
-                    <Textarea label="Prize" onChange={this.handleChange} name="prize" value={this.state.quiz.prize}></Textarea>
-                    <br/>
+                    <TextareaWide label="PRIZE" error={this.state.errors['prize']} onChange={this.handleChange} placeholder="Prize for the King" name="prize" value={this.state.quiz.prize}></TextareaWide>
+                    <HorizontalLine midMargins={true}/>
                     <Questions onChange={this.handleChange} name="questions" value={this.state.quiz.questions}/>
                 </Form>
             );
