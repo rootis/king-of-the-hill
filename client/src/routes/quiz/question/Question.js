@@ -3,6 +3,7 @@ import "./Question.css";
 import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
 import Answers from "../answers/Answers";
 import QuestionAnswer from "../../../model/forms/QuestionAnswer";
+import Button from "../../../components/button/Button";
 
 export default class Question extends Component {
 
@@ -82,9 +83,20 @@ export default class Question extends Component {
     render() {
         return (
             <div className="Question-box">
-                <p>{this.props.value.text}. Score: {this.props.value.score}</p>
+                <div className="QuizQuestion-row-box">
+                    <div className="QuizQuestion-row-left-box">
+                        <span>Score</span>
+                    </div>
+                    <div className="QuizQuestion-row-right-box">
+                        <span>{this.props.value.score}</span>
+                    </div>
+                </div>
+                <div className="QuizQuestion-text-box">
+                    <p><strong>Question: </strong>{this.props.value.text}</p>
+
+                </div>
                 <Answers value={this.props.value.answers} name="answers" onChange={this.handleChange} type={this.props.value.type}/>
-                <h1 onClick={this.submitAnswer}>Submit answer</h1>
+                <Button onClick={this.submitAnswer} text="Submit Answer" mid={true}/>
             </div>
         );
     }

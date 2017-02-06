@@ -19,6 +19,14 @@
     width: 90px;
 }
 
+.Button-mid {
+    font-size: 0.8em;
+    padding: 8px;
+    margin-right: 5px;
+    text-align: center;
+    width: 100px;
+}
+
 .Button:hover {
     background-color: #205bc7;
 }

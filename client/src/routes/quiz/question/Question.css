@@ -1,3 +1,35 @@
-.Question-box {
+.QuizQuestion-row-box {
+    clear: both;
+    margin: 10px 0 10px 0;
+    position: relative;
+}
 
+.QuizQuestion-row-left-box {
+    float: left;
+    text-align: right;
+    width: 50%;
+}
+
+.QuizQuestion-row-left-box span {
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.QuizQuestion-row-right-box span {
+    font-weight: bolder;
+    margin-left: 8px;
+}
+
+.QuizQuestion-row-right-box {
+    float: right;
+    text-align: left;
+    width: 50%;
+}
+
+.QuizQuestion-text-box {
+    margin: auto;
+    margin-top: 20px;
+    position: relative;
+    text-align: left;
+    width: 80%;
 }

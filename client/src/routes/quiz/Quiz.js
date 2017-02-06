@@ -100,13 +100,13 @@ export default class Quiz extends Component {
             startButton = null;
         } else {
             startButton = (
-                <Button onClick={this.startQuiz} text="Start Quiz"/>
+                <Button onClick={this.startQuiz} text="Start Quiz!"/>
             )
         }
 
         if (this.state.quiz) {
             content = (
-                <div>
+                <div className="Quiz-box">
                     <div className="Quiz-title-box">
                         <span className="Quiz-title">{this.state.quiz ? this.state.quiz.title : ''}</span>
                     </div>

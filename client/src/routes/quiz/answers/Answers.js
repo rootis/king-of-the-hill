@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Answer from "../answer/Answer";
+import "./Answers.css";
 
 export default class Answers extends Component {
 
@@ -16,7 +17,7 @@ export default class Answers extends Component {
 
     render() {
         return (
-            <div>
+            <div className="QuizAnswers-box">
                 {Object.keys(this.props.value).map((key) =>
                     <Answer key={key} name={key} onChange={this.handleChange} type={this.props.type} value={this.props.value[key]}/>
                 )}
