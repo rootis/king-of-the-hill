@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import Questions from "./questions/Questions";
 import Button from "../../components/button/Button";
 import FormUtils from "../../utils/FormUtils";
+import Logo from "../../components/logo/Logo";
+import HorizontalLine from "../../components/horizontal-line/HorizontalLine";
+import "./Quiz.css";
 
 export default class Quiz extends Component {
 
@@ -85,18 +88,30 @@ export default class Quiz extends Component {
     };
 
     render() {
-        let content = <h1>Quiz</h1>;
-        let quiz = <h1 onClick={this.startQuiz}>You haven't started yet. Click to start</h1>;
+        let quiz;
+        let content;
+        let startButton;
 
         if (this.state.participant && this.state.participant.startTimeStamp) {
-            quiz = <Questions onChange={this.handleChange} participantId={this.state.participant._id} name="questions" value={this.state.quiz.questions} updateParticipantQuiz={this.updateParticipantQuiz}/>;
+            quiz = (
+                <Questions onChange={this.handleChange} participantId={this.state.participant._id} name="questions" value={this.state.quiz.questions} updateParticipantQuiz={this.updateParticipantQuiz}/>
+            );
+            startButton = null;
+        } else {
+            startButton = (
+                <Button onClick={this.startQuiz} text="Start Quiz"/>
+            )
         }
 
         if (this.state.quiz) {
             content = (
                 <div>
-                    <h1>Quiz: {this.state.quiz ? this.state.quiz.title : ''}</h1>
-                    <h1>Total score: {this.state.participant && this.state.participant.totalScore ? this.state.participant.totalScore : '0'}</h1>
+                    <div>
+                        <span className="Quiz-title">{this.state.quiz ? this.state.quiz.title : ''}</span>
+                    </div>
+                    <div className="Quiz-title-smaller-box">
+                        <span className="Quiz-title-smaller">Prize: {this.state.quiz ? this.state.quiz.prize : ''}</span>
+                    </div>
                     {quiz}
                 </div>
             );
@@ -104,8 +119,13 @@ export default class Quiz extends Component {
 
         return (
             <div>
+                <Logo bottomSpacing={true}/>
                 {content}
-                <Button link="/" text="Home Page"/>
+                <HorizontalLine/>
+                <div className="Quiz-controlls-box">
+                    {startButton}
+                    <Button link="/" negative={true} text="Home Page"/>
+                </div>
             </div>
         );
     }
