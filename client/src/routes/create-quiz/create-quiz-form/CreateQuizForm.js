@@ -55,7 +55,7 @@ export default class CreationForm extends Component {
             content = <QuizCode code={this.state.quiz.code}/>;
         } else {
             content = (
-                <Form onSubmit={this.handleSave} submitText="Create">
+                <Form onSubmit={this.handleSave} submitText="Create" midMargins={true}>
                     <HorizontalLine smallMargins={true}/>
                     <InputWide label="QUIZ TITLE" error={this.state.errors['title']} placeholder="Unique Quiz Title" onChange={this.handleChange} name="title" value={this.state.quiz.title}/>
                     <TextareaWide label="PRIZE" error={this.state.errors['prize']} onChange={this.handleChange} placeholder="Prize for the King" name="prize" value={this.state.quiz.prize}></TextareaWide>

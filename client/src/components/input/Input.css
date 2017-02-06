@@ -1,11 +1,16 @@
 .Input {
     border-style: solid;
     padding: 10px;
-    font-size: 17px;
+    font-size: 15px;
     border-radius: 4px;
     border-color: #d7d7d7;
     border-width: 1px;
     max-width: 220px;
+}
+
+.Input-uncontrolled {
+    margin-top: 2px;
+    padding: 6px;
 }
 
 .Input:focus {

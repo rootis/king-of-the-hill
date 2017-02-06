@@ -45,7 +45,7 @@ export default class Answers extends Component {
         this.lastId++;
         let result = new AnswerEntity();
         result._id = this.lastId.toString() + 'a';
-        result.text = 'Answa: ' + result._id;
+        result.text = '';
         result.isCorrect = false;
         return result;
     }

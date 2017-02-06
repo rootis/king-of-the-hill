@@ -4,6 +4,7 @@ import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
 import Input from "../../../components/input/InputUncontrolled";
 import Checkbox from "../../../components/checkbox/Checkbox";
 import Radio from "../../../components/radio/Radio";
+import RemoveIcon from "../remove.png";
 
 export default class Answer extends Component {
 
@@ -25,18 +26,24 @@ export default class Answer extends Component {
     render() {
         return (
             <div className="Answer-box">
-                <h1 onClick={this.removeAnswer}>X</h1>
-                <Input label="Answer text" onChange={this.handleChange} name="text" value={this.props.value.text}/>
-                {this.getCorrectAnswerComponent()}
+                <div className={'CreateQuiz-row-box'}>
+                    <div className={'CreateQuiz-row-left-box'}>
+                        <img onClick={this.removeAnswer} src={RemoveIcon} alt="Remove Answer"/>
+                    </div>
+                    <div className={'CreateQuiz-row-right-box'}>
+                        <Input onChange={this.handleChange} name="text" value={this.props.value.text}/>
+                        {this.getCorrectAnswerComponent()}
+                    </div>
+                </div>
             </div>
         );
     }
 
     getCorrectAnswerComponent() {
         if (this.props.type === QuestionTypeEnum.CHECKBOX) {
-            return <Checkbox label="Is it correct answer?" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />;
+            return <Checkbox label="It is correct" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />;
         } else {
-            return <Radio label="Is it correct answer?" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />
+            return <Radio label="It is correct" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />
         }
     }
 

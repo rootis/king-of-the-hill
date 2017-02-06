@@ -11,7 +11,7 @@ export default class Form extends Component {
                 <div className="Form-children-box">
                     {this.props.children}
                 </div>
-                <HorizontalLine />
+                <HorizontalLine midMargins={this.props.midMargins} />
                 <div className="Form-controlls-box">
                     <Button onClick={this.props.onSubmit} text={this.props.submitText}/>
                     <Button link="/" negative={true} text="Cancel"/>
