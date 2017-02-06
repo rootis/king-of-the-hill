@@ -5,7 +5,7 @@ export default class HorizontalLine extends Component {
 
     render() {
         return (
-            <hr className="HorizontalLine"/>
+            <hr className={'HorizontalLine' + (this.props.smallMargins ? ' HorizontalLine-small-margins' : ' HorizontalLine-margins')}/>
         );
     }
 

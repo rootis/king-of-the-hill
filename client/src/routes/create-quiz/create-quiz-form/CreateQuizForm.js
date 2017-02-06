@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import QuizForm from "../../../model/forms/QuizForm";
 import QuizCode from "../quiz-code/QuizCode";
 import Form from "../../../components/form/Form";
-import Input from "../../../components/input/Input";
+import HorizontalLine from "../../../components/horizontal-line/HorizontalLine";
+import InputWide from "../../../components/input-wide/InputWide";
 import Textarea from "../../../components/textarea/Textarea";
 import Questions from "../questions/Questions";
 import FormUtils from "../../../utils/FormUtils";
@@ -55,8 +56,8 @@ export default class CreationForm extends Component {
         } else {
             content = (
                 <Form onSubmit={this.handleSave} submitText="Create">
-                    <h1>{this.state.quiz.questions.length}</h1>
-                    <Input label="Quiz title" error={this.state.errors['title']} onChange={this.handleChange} name="title" value={this.state.quiz.title}/>
+                    <HorizontalLine smallMargins={true}/>
+                    <InputWide label="QUIZ TITLE" error={this.state.errors['title']} placeholder="Unique Quiz Title" onChange={this.handleChange} name="title" value={this.state.quiz.title}/>
                     <br/>
                     <br/>
                     <Textarea label="Prize" onChange={this.handleChange} name="prize" value={this.state.quiz.prize}></Textarea>
