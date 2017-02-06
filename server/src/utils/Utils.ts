@@ -1,3 +1,5 @@
+'use strict';
+
 export default class Utils {
 
     static isTwoArraysEqual(array1: string[], array2: string[]): boolean {

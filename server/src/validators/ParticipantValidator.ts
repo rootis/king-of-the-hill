@@ -2,8 +2,8 @@
 
 import {AbstractValidator} from "./AbstractValidator";
 import DatabaseService from "../services/DatabaseService";
-import QuizService from "../services/QuizService";
 import Participant from "../model/entities/Participant";
+import Constants from "../common/Constants";
 
 export default class ParticipantValidator extends AbstractValidator {
 
@@ -17,7 +17,9 @@ export default class ParticipantValidator extends AbstractValidator {
 
         return new Promise((resolve: (value: boolean) => void, reject: (value: { [key: string]: string }) => void): void => {
             let searchBy: any = {code: this.object['quizCode']};
-            DatabaseService.find(QuizService.QUIZ_COLLECTION, searchBy).then((results: any[]) => this.validateExistingQuiz(results, resolve, reject));
+            DatabaseService.find(Constants.QUIZ_COLLECTION, searchBy).then((results: any[]) => {
+                this.validateExistingQuiz(results, resolve, reject);
+            }).catch((err) => reject(err));
         });
     }
 

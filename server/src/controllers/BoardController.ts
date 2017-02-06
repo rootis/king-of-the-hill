@@ -2,15 +2,18 @@
 
 import {Application, Request, Response} from "express-serve-static-core";
 
+import {AbstractController} from "./AbstractController";
 import ParticipantService from "../services/ParticipantService";
 import Participant from "../model/entities/Participant";
 import Board from "../model/forms/Board";
+import Constants from "../common/Constants";
 
-export default class BoardController {
+export default class BoardController extends AbstractController {
 
     private participantService = new ParticipantService();
 
     constructor(app: Application) {
+        super();
         this.registerRoutes(app);
     }
 
@@ -18,14 +21,14 @@ export default class BoardController {
         if (request && request.params && request.params.quizCode) {
             this.participantService.getOrderedParticipantsByQuizCode(request.params.quizCode).then((participants: Participant[]) => {
                 response.send(new Board(participants));
-            }).catch((err) => response.status(500).send(err));
+            }).catch((err) => this.sendErrors(response, err));
         } else {
-            response.status(500).send({errors: {quizCode: 'Quiz code is required'}});
+            response.status(400).send({quizCode: 'Quiz code is required'});
         }
     };
 
     private registerRoutes(app: Application): void {
-        let urlPrefix: string = '/api/board';
+        let urlPrefix: string = Constants.REST_API_URL_PREFIX + '/board';
 
         app.get(urlPrefix + '/:quizCode', this.getBoardInformation);
     }

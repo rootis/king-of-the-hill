@@ -2,10 +2,10 @@
 
 import {AbstractValidator} from "./AbstractValidator";
 import DatabaseService from "../services/DatabaseService";
-import QuizService from "../services/QuizService";
 import Quiz from "../model/entities/Quiz";
 import Question from "../model/entities/Question";
 import Answer from "../model/entities/Answer";
+import Constants from "../common/Constants";
 
 export default class QuizValidator extends AbstractValidator {
 
@@ -20,7 +20,9 @@ export default class QuizValidator extends AbstractValidator {
 
         return new Promise<boolean>((resolve: (value: boolean) => void, reject: (value: { [key: string]: string }) => void) => {
             let searchBy: any = {code: this.object['code']};
-            DatabaseService.find(QuizService.QUIZ_COLLECTION, searchBy).then((results: any[]) => this.validateUniqueness(results, resolve, reject));
+            DatabaseService.find(Constants.QUIZ_COLLECTION, searchBy).then((results: any[]) => {
+                this.validateUniqueness(results, resolve, reject)
+            }).catch((err) => reject(err));
         });
     }
 

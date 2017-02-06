@@ -2,6 +2,7 @@
 
 import {Cursor, Db, FindAndModifyWriteOpResultObject, InsertOneWriteOpResult, MongoClient, ObjectID} from "mongodb";
 import {AbstractEntity} from "../model/entities/AbstractEntity";
+import Constants from "../common/Constants";
 
 const mongo = require('mongodb');
 const mongoClient: MongoClient = mongo.MongoClient;
@@ -18,8 +19,8 @@ export default class DatabaseService {
     }
 
     private static initClient(): Promise<Db> {
-        return new Promise(function (resolve, reject) {
-            mongoClient.connect('mongodb://db:27017/quiz_db', function (err: any, db: Db) {
+        return new Promise(function (resolve: (value: Db) => void, reject: (value: any) => void) {
+            mongoClient.connect(Constants.MONGODB_URL, function (err: any, db: Db) {
                 if (err) {
                     reject(err);
                 }
@@ -52,6 +53,7 @@ export default class DatabaseService {
                         entity._id = result.value._id;
                         resolve(entity);
                     } else {
+                        console.log('Update error: ', err);
                         reject({'error': 'unable to update'});
                     }
                 });
@@ -72,6 +74,7 @@ export default class DatabaseService {
 
     static findByObjectId(collection: string, id: string): Promise<any[]> {
         let objectId: ObjectID = new mongo.ObjectID(id);
+
         return DatabaseService.find(collection, {_id: objectId});
     }
 

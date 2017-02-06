@@ -15,9 +15,7 @@ export default class Question extends Component {
     };
 
     handleChange = (event) => {
-        if (event.target.name.indexOf('isCorrect') > -1) {
-            this.checkCorrectAnswersByQuestionType();
-        }
+        this.resetCorrectAnswersIfNeeded(event);
         this.props.onChange(this.updateEvent(event));
     };
 
@@ -28,8 +26,8 @@ export default class Question extends Component {
         return event;
     }
 
-    checkCorrectAnswersByQuestionType() {
-        if (this.props.value.type === QuestionTypeEnum.RADIO) {
+    resetCorrectAnswersIfNeeded(event) {
+        if ((event.target.name.indexOf('isCorrect') > -1 && this.props.value.type === QuestionTypeEnum.RADIO) || (event.target.name === 'type' && this.props.value.type !== QuestionTypeEnum.RADIO)) {
             Object.keys(this.props.value.answers).forEach((key) => this.props.value.answers[key].isCorrect = false);
         }
     }

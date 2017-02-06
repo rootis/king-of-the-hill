@@ -1,18 +1,18 @@
 'use strict';
 
+import {AbstractService} from "./AbstractService";
 import DatabaseService from "./DatabaseService";
-import Participant from "../model/entities/Participant";
-import QuestionAnswer from "../model/forms/QuestionAnswer";
 import QuizService from "./QuizService";
+import ParticipantValidator from "../validators/ParticipantValidator";
 import Quiz from "../model/entities/Quiz";
 import Question from "../model/entities/Question";
-import Utils from "../utils/Utils";
+import QuestionAnswer from "../model/forms/QuestionAnswer";
+import Participant from "../model/entities/Participant";
 import ParticipantQuiz from "../model/forms/ParticipantQuiz";
-import ParticipantValidator from "../validators/ParticipantValidator";
+import Utils from "../utils/Utils";
+import Constants from "../common/Constants";
 
-export default class ParticipantService {
-
-    static PARTICIPANT_COLLECTION: string = 'quiz_participant';
+export default class ParticipantService extends AbstractService {
 
     private quizService: QuizService = new QuizService();
 
@@ -24,20 +24,24 @@ export default class ParticipantService {
                         resolve(result);
                     } else {
                         participant.totalScore = 0;
-                        DatabaseService.insert(ParticipantService.PARTICIPANT_COLLECTION, participant).then((result: Participant) => {
+                        DatabaseService.insert(Constants.PARTICIPANT_COLLECTION, participant).then((result: Participant) => {
                             resolve(result);
-                        });
+                        }).catch((err: any) => reject(err));
                     }
-                });
-            }).catch((err: any) => reject(err));
+                }).catch((err: any) => reject(err));
+            }).catch((err: any) => this.validationReject(reject, err));
         });
     }
 
     getParticipant(id: string): Promise<Participant> {
-        return new Promise<Participant>(function (resolve: (participant: Participant) => void) {
-            DatabaseService.findByObjectId(ParticipantService.PARTICIPANT_COLLECTION, id).then((results: any[]) => {
-                resolve(results && results.length > 0 ? results[0] : null)
-            });
+        return new Promise<Participant>(function (resolve: (participant: Participant) => void, reject: (value: any) => void) {
+            DatabaseService.findByObjectId(Constants.PARTICIPANT_COLLECTION, id).then((results: any[]) => {
+                if (results && results.length > 0) {
+                    resolve(results[0]);
+                } else {
+                    this.validationReject(reject, {id: 'Participant not found'});
+                }
+            }).catch((err: any) => reject(err));
         });
     }
 
@@ -49,11 +53,11 @@ export default class ParticipantService {
                         if (quiz != null) {
                             resolve(this.cleanAnsweredQuestionsAndDecreaseScores(participant, quiz));
                         } else {
-                            reject({error: 'Quiz not found'});
+                            this.validationReject(reject, {quizCode: 'Quiz not found'})
                         }
                     }).catch((err) => reject(err));
                 } else {
-                    reject({error: 'Participant not found'});
+                    this.validationReject(reject, {id: 'Participant not found'});
                 }
             }).catch((err) => reject(err));
         });
@@ -62,17 +66,16 @@ export default class ParticipantService {
     getOrderedParticipantsByQuizCode(quizCode: string): Promise<Participant[]> {
         return new Promise<Participant[]>((resolve: (participants: Participant[]) => void, reject: (value: any) => void) => {
             this.quizService.getQuizByCode(quizCode).then((quiz: Quiz) => {
-                DatabaseService.find(ParticipantService.PARTICIPANT_COLLECTION, {quizCode: quiz.code}).then((results: any[]) => {
+                DatabaseService.find(Constants.PARTICIPANT_COLLECTION, {quizCode: quiz.code}).then((results: any[]) => {
                     resolve(this.orderParticipants(results ? results : []));
                 }).catch((err) => reject(err));
-            }).catch((err: any) => {
-                reject({quizCode: 'Quiz not found'});
-            });
+            }).catch((err) => reject(err));
         });
     }
 
     startQuiz(participant: Participant): Promise<Participant> {
         participant.startTimeStamp = new Date().getTime();
+
         return new Promise<Participant>((resolve: (value: Participant) => void, reject: (value: any) => void) => {
             this.update(participant).then((result: Participant) => {
                 resolve(result)
@@ -83,14 +86,10 @@ export default class ParticipantService {
     applyAnswer(answer: QuestionAnswer): Promise<ParticipantQuiz> {
         return new Promise<ParticipantQuiz>((resolve: (value: ParticipantQuiz) => void, reject: (value: any) => void) => {
             this.getParticipantQuiz(answer.participantId).then((participantQuiz: ParticipantQuiz) => {
-                if (participantQuiz != null) {
-                    participantQuiz = this.checkAndApplyAnswer(participantQuiz, answer);
-                    this.update(participantQuiz.participant).then(() => {
-                        resolve(participantQuiz)
-                    }).catch((err) => reject(err));
-                } else {
-                    reject({error: 'Information not found'});
-                }
+                participantQuiz = this.checkAndApplyAnswer(participantQuiz, answer);
+                this.update(participantQuiz.participant).then(() => {
+                    resolve(participantQuiz)
+                }).catch((err) => reject(err));
             }).catch((err) => reject(err));
         });
     };
@@ -112,11 +111,11 @@ export default class ParticipantService {
     };
 
     private update(participant: Participant): Promise<Participant> {
-        return DatabaseService.updateById(ParticipantService.PARTICIPANT_COLLECTION, participant);
+        return DatabaseService.updateById(Constants.PARTICIPANT_COLLECTION, participant);
     }
 
     private cleanAnsweredQuestionsAndDecreaseScores(participant: Participant, quiz: Quiz): ParticipantQuiz {
-        let result: ParticipantQuiz = this.cleanAnsweredQuestions(participant, quiz);
+        let result: ParticipantQuiz = this.removeAnsweredQuestions(participant, quiz);
 
         return this.recalculateScores(result);
     }
@@ -135,11 +134,16 @@ export default class ParticipantService {
     private decreaseScores(questions: { [key: string]: Question }, amountOfTimeAfterStart: number): void {
         for (let questionId in questions) {
             if (questions.hasOwnProperty(questionId)) {
-                questions[questionId].score = parseInt(<any>questions[questionId].score, 10) - amountOfTimeAfterStart;
-                if (questions[questionId].score < 0) {
-                    questions[questionId].score = 0;
-                }
+                this.decreaseQuestionScore(questions[questionId], amountOfTimeAfterStart);
             }
+        }
+    }
+
+    private decreaseQuestionScore(question: Question, amountOfTimeAfterStart: number): void {
+        question.score = parseInt(<any>question.score, 10) - amountOfTimeAfterStart;
+
+        if (question.score < 0) {
+            question.score = 0;
         }
     }
 
@@ -149,10 +153,11 @@ export default class ParticipantService {
         return Math.floor((milliseconds / 1000));
     }
 
-    private cleanAnsweredQuestions(participant: Participant, quiz: Quiz): ParticipantQuiz {
+    private removeAnsweredQuestions(participant: Participant, quiz: Quiz): ParticipantQuiz {
         if (participant.answeredQuestionIds) {
             participant.answeredQuestionIds.forEach((id: string) => delete quiz.questions[id]);
         }
+
         return new ParticipantQuiz(participant, quiz);
     }
 
@@ -207,10 +212,10 @@ export default class ParticipantService {
     }
 
     private isParticipantInQuiz(participant: Participant): Promise<Participant> {
-        return new Promise<Participant>(function (resolve: (value: Participant) => void) {
-            DatabaseService.find(ParticipantService.PARTICIPANT_COLLECTION, participant).then((results: any[]) => {
+        return new Promise<Participant>(function (resolve: (value: Participant) => void, reject: (value: any) => void) {
+            DatabaseService.find(Constants.PARTICIPANT_COLLECTION, participant).then((results: any[]) => {
                 resolve(results && results.length > 0 ? results[0] : null)
-            });
+            }).catch((err) => reject(err));
         });
     }
 
