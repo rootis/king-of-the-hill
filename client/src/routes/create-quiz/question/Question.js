@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import TextareaWide from "../../../components/textarea-wide/TextareaWide";
 import InputWide from "../../../components/input-wide/InputWide";
-import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
 import AnswerType from "../answer-type/AnswerType";
 import Answers from "../answers/Answers";
+import Constants from "../../../common/Constants";
 import RemoveIcon from "../remove.png";
 import "./Question.css";
 
@@ -23,11 +23,12 @@ export default class Question extends Component {
         if (event.target.name.indexOf(this.props.name + '.') === -1) {
             event.target.name = this.props.name + '.' + event.target.name;
         }
+
         return event;
     }
 
     resetCorrectAnswersIfNeeded(event) {
-        if ((event.target.name.indexOf('isCorrect') > -1 && this.props.value.type === QuestionTypeEnum.RADIO) || (event.target.name === 'type' && this.props.value.type !== QuestionTypeEnum.RADIO)) {
+        if ((event.target.name.indexOf('isCorrect') > -1 && this.props.value.type === Constants.RADIO) || (event.target.name === 'type' && this.props.value.type !== Constants.RADIO)) {
             Object.keys(this.props.value.answers).forEach((key) => this.props.value.answers[key].isCorrect = false);
         }
     }

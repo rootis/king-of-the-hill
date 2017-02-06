@@ -1,21 +1,21 @@
 import React, {Component} from "react";
 import Button from "../../../components/button/Button";
-import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
+import Constants from "../../../common/Constants";
 
 export default class AnswerType extends Component {
 
     selectCheckbox = (event) => {
-        if (this.props.value !== QuestionTypeEnum.CHECKBOX) {
+        if (this.props.value !== Constants.CHECKBOX) {
             event.target.name = this.props.name;
-            event.target.value = QuestionTypeEnum.CHECKBOX;
+            event.target.value = Constants.CHECKBOX;
             this.props.onChange(event);
         }
     };
 
     selectRadio = (event) => {
-        if (this.props.value !== QuestionTypeEnum.RADIO) {
+        if (this.props.value !== Constants.RADIO) {
             event.target.name = this.props.name;
-            event.target.value = QuestionTypeEnum.RADIO;
+            event.target.value = Constants.RADIO;
             this.props.onChange(event);
         }
     };
@@ -23,8 +23,8 @@ export default class AnswerType extends Component {
     render() {
         return (
             <div className={'AnswerType-box'}>
-                <Button text="CHECKBOX" small={true} onClick={this.selectCheckbox} negative={this.props.value !== QuestionTypeEnum.CHECKBOX}/>
-                <Button text="RADIO" small={true} onClick={this.selectRadio} negative={this.props.value !== QuestionTypeEnum.RADIO}/>
+                <Button text="CHECKBOX" small={true} onClick={this.selectCheckbox} negative={this.props.value !== Constants.CHECKBOX}/>
+                <Button text="RADIO" small={true} onClick={this.selectRadio} negative={this.props.value !== Constants.RADIO}/>
             </div>
         );
     }

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Question from "../question/Question";
 import QuestionEntity from "../../../model/entities/QuestionEntity";
-import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
+import Constants from "../../../common/Constants";
 import AddIcon from "../add.png";
 import "./Questions.css";
 
@@ -31,6 +31,7 @@ export default class Questions extends Component {
         if (event.target.name.indexOf(this.props.name) === -1) {
             event.target.name = this.props.name + '.' + event.target.name;
         }
+
         return event;
     }
 
@@ -39,7 +40,7 @@ export default class Questions extends Component {
         let result = new QuestionEntity();
         result._id = this.lastId.toString();
         result.text = '';
-        result.type = QuestionTypeEnum.CHECKBOX;
+        result.type = Constants.CHECKBOX;
         return result;
     };
 

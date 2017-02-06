@@ -1,12 +1,13 @@
 import React, {Component} from "react";
 import AnswerEntity from "../../../model/entities/AnswerEntity";
 import Answer from "../answer/Answer";
-import AddIcon from "../add.png"
+import AddIcon from "../add.png";
 
 export default class Answers extends Component {
 
     constructor(props) {
         super(props);
+
         this.lastId = 0;
     }
 

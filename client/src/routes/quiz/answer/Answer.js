@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
 import Checkbox from "../../../components/checkbox/Checkbox";
 import Radio from "../../../components/radio/Radio";
+import Constants from "../../../common/Constants";
 
 export default class Answer extends Component {
 
@@ -13,6 +13,7 @@ export default class Answer extends Component {
         if (event.target.name.indexOf(this.props.name) === -1) {
             event.target.name = this.props.name + '.' + event.target.name;
         }
+
         return event;
     }
 
@@ -25,10 +26,10 @@ export default class Answer extends Component {
     }
 
     getCorrectAnswerComponent() {
-        if (this.props.type === QuestionTypeEnum.CHECKBOX) {
-            return <Checkbox label={this.props.value.text} onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />;
+        if (this.props.type === Constants.CHECKBOX) {
+            return <Checkbox label={this.props.value.text} onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect}/>;
         } else {
-            return <Radio label={this.props.value.text} onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />
+            return <Radio label={this.props.value.text} onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect}/>;
         }
     }
 

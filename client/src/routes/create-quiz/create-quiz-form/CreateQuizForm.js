@@ -1,12 +1,13 @@
 import React, {Component} from "react";
-import QuizForm from "../../../model/forms/QuizForm";
+import QuizEntity from "../../../model/entities/QuizEntity";
 import QuizCode from "../quiz-code/QuizCode";
 import Form from "../../../components/form/Form";
 import HorizontalLine from "../../../components/horizontal-line/HorizontalLine";
 import InputWide from "../../../components/input-wide/InputWide";
 import TextareaWide from "../../../components/textarea-wide/TextareaWide";
 import Questions from "../questions/Questions";
-import FormUtils from "../../../utils/FormUtils";
+import Constants from "../../../common/Constants";
+import Utils from "../../../utils/Utils";
 
 export default class CreationForm extends Component {
 
@@ -15,13 +16,13 @@ export default class CreationForm extends Component {
 
         this.lastId = 0;
         this.state = {
-            quiz: new QuizForm(),
+            quiz: new QuizEntity(),
             errors: {}
         };
     }
 
     handleChange = (event) => {
-        let quiz = FormUtils.handleChange(event, this.state.quiz);
+        let quiz = Utils.handleChange(event, this.state.quiz);
         let filteredErrors = this.filterErrors(event.target.name);
 
         this.setState({quiz: quiz, errors: filteredErrors});
@@ -39,25 +40,10 @@ export default class CreationForm extends Component {
 
     handleSave = (event) => {
         event.preventDefault();
-        fetch('/api/quiz', {
-            method: "POST",
-            body: JSON.stringify(this.state.quiz),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(response => response.json().then(json => ({
-                status: response.status,
-                json
-            })
-        )).then((response) => {
-            if (response.status >= 400) {
-                this.setState({errors: response.json});
-            } else {
-                this.setState({quiz: response.json});
-            }
-        }, function (error) {
-            console.log(error);
-        });
+
+        Utils.ajaxPost(Constants.REST_API_PREFIX + '/quiz', this.state.quiz).then((result) => {
+            this.setState({quiz: result});
+        }).catch((err) => this.setState({errors: err}));
     };
 
     render() {

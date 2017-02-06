@@ -5,6 +5,7 @@ export default class Questions extends Component {
 
     constructor(props) {
         super(props);
+
         this.startTimer();
     }
 

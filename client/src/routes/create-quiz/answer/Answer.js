@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import "./Answer.css";
-import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
 import Input from "../../../components/input/InputUncontrolled";
 import Checkbox from "../../../components/checkbox/Checkbox";
 import Radio from "../../../components/radio/Radio";
 import RemoveIcon from "../remove.png";
+import Constants from "../../../common/Constants";
 
 export default class Answer extends Component {
 
@@ -40,10 +40,10 @@ export default class Answer extends Component {
     }
 
     getCorrectAnswerComponent() {
-        if (this.props.type === QuestionTypeEnum.CHECKBOX) {
-            return <Checkbox label="It is correct" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />;
+        if (this.props.type === Constants.CHECKBOX) {
+            return <Checkbox label="It is correct" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect}/>;
         } else {
-            return <Radio label="It is correct" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect} />
+            return <Radio label="It is correct" onChange={this.handleChange} name="isCorrect" value={this.props.value.isCorrect}/>;
         }
     }
 

@@ -2,12 +2,15 @@ import React, {Component} from "react";
 import Button from "../../components/button/Button";
 import Participants from "./participants/Participants";
 import Logo from "../../components/logo/Logo";
+import Constants from "../../common/Constants";
+import Utils from "../../utils/Utils";
 import "./Results.css";
 
 export default class Results extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {};
         this.keepLoadingInformation = true;
         this.loadQuizInfo();
@@ -19,45 +22,23 @@ export default class Results extends Component {
     }
 
     loadQuizInfo = () => {
-        fetch('/api/quiz/' + this.props.params.quizCode, {
-            method: "GET"
-        }).then(response => response.json().then(json => ({
-                status: response.status,
-                json
-            })
-        )).then((response) => {
-            if (response.status >= 400) {
-                this.setState({errors: response.json});
-            } else {
-                this.setState({quizTitle: response.json.title});
-            }
-        }, function (error) {
-            console.error(error);
-        });
+        Utils.ajaxGet(Constants.REST_API_PREFIX + '/quiz/' + this.props.params.quizCode).then((result) => {
+            this.setState({
+                quizTitle: result.title,
+                prize: result.prize
+            });
+        }).catch((err) => this.setState({errors: err}));
     };
 
     loadInfo = () => {
-        fetch('/api/board/' + this.props.params.quizCode, {
-            method: "GET"
-        }).then(response => response.json().then(json => ({
-                status: response.status,
-                json
-            })
-        )).then((response) => {
-            this.setLoadInfoTimeout();
-            if (response.status >= 400) {
-                this.setState({errors: response.json});
-            } else {
-                this.updateBoard(response.json);
-            }
-        }, function (error) {
-            console.log(error);
-        });
+        Utils.ajaxGet(Constants.REST_API_PREFIX + '/board/' + this.props.params.quizCode).then((result) => {
+            this.updateBoard(result);
+        }).catch((err) => this.setState({errors: err}));
     };
 
     setLoadInfoTimeout = () => {
         if (this.keepLoadingInformation) {
-            setTimeout(this.loadInfo, 5000);
+            setTimeout(this.loadInfo, Constants.BOARD_LOAD_INTERVAL);
         }
     };
 
@@ -73,6 +54,9 @@ export default class Results extends Component {
                 <Logo/>
                 <div className="Results-title-box">
                     <span className="Results-title">{this.state.quizTitle}</span>
+                </div>
+                <div className="Results-title-smaller-box">
+                    <span className="Results-title-smaller"><strong>Prize</strong>: {this.state.prize}</span>
                 </div>
                 <Participants value={this.state.participants}/>
                 <Button link="/" text="Home Page"/>

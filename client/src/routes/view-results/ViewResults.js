@@ -1,15 +1,17 @@
 import React, {Component} from "react";
 import {browserHistory} from "react-router";
-import FormUtils from "../../utils/FormUtils";
 import Logo from "../../components/logo/Logo";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
+import Constants from "../../common/Constants";
+import Utils from "../../utils/Utils";
 import "./ViewResults.css";
 
 export default class ViewResults extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             inputForm: {},
             errors: {}
@@ -17,27 +19,16 @@ export default class ViewResults extends Component {
     }
 
     handleChange = (event) => {
-        let inputForm = FormUtils.handleChange(event, this.state.inputForm);
+        let inputForm = Utils.handleChange(event, this.state.inputForm);
         this.setState({inputForm: inputForm, errors: {}});
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
-        fetch('/api/quiz/' + this.state.inputForm.quizCode, {
-            method: "GET"
-        }).then(response => response.json().then(json => ({
-                status: response.status,
-                json
-            })
-        )).then((response) => {
-            if (response.status >= 400) {
-                this.setState({errors: response.json});
-            } else {
-                browserHistory.push('/results/' + response.json.code);
-            }
-        }, function (error) {
-            console.error(error);
-        });
+
+        Utils.ajaxGet(Constants.REST_API_PREFIX + '/quiz/' + this.state.inputForm.quizCode).then((result) => {
+            browserHistory.push('/results/' + result.code);
+        }).catch((err) => this.setState({errors: err}));
     };
 
     render() {

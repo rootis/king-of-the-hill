@@ -1,39 +1,29 @@
 import React, {Component} from "react";
 import Questions from "./questions/Questions";
 import Button from "../../components/button/Button";
-import FormUtils from "../../utils/FormUtils";
 import Logo from "../../components/logo/Logo";
 import HorizontalLine from "../../components/horizontal-line/HorizontalLine";
+import Constants from "../../common/Constants";
+import Utils from "../../utils/Utils";
 import "./Quiz.css";
 
 export default class Quiz extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {};
         this.loadInfo();
     }
 
     loadInfo() {
-        fetch('/api/participant/' + this.props.params.id, {
-            method: "GET"
-        }).then(response => response.json().then(json => ({
-                status: response.status,
-                json
-            })
-        )).then((response) => {
-            if (response.status >= 400) {
-                this.setState({errors: response.json});
-            } else {
-                this.updateParticipantQuiz(response.json);
-            }
-        }, function (error) {
-            console.log(error);
-        });
+        Utils.ajaxGet(Constants.REST_API_PREFIX + '/participant/' + this.props.params.id).then((result) => {
+            this.updateParticipantQuiz(result);
+        }).catch((err) => this.setState({errors: err}));
     }
 
     handleChange = (event) => {
-        let quiz = FormUtils.handleChange(event, this.state.quiz);
+        let quiz = Utils.handleChange(event, this.state.quiz);
         this.setState({quiz: quiz});
     };
 
@@ -65,25 +55,9 @@ export default class Quiz extends Component {
     }
 
     startQuiz = () => {
-        fetch('/api/participant/start-quiz', {
-            method: "POST",
-            body: JSON.stringify(this.state.participant),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(response => response.json().then(json => ({
-                status: response.status,
-                json
-            })
-        )).then((response) => {
-            if (response.status >= 400) {
-                console.error(response.json);
-            } else {
-                this.updateParticipant(response.json);
-            }
-        }, function (error) {
-            console.log(error);
-        });
+        Utils.ajaxPost(Constants.REST_API_PREFIX + '/participant/start-quiz', this.state.participant).then((result) => {
+            this.updateParticipant(result);
+        }).catch((err) => console.error(err));
     };
 
     render() {

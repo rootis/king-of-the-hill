@@ -9,5 +9,15 @@
 }
 
 .Results-title-box {
-    margin: 20px 0 30px 0;
+    margin: 20px 0 15px 0;
+}
+
+.Results-title-smaller-box {
+    margin: auto;
+    max-width: 800px;
+}
+
+.Results-title-smaller {
+    color: #373737;
+    font-size: 1.2em;
 }
