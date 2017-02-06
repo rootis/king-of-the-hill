@@ -4,6 +4,10 @@
     letter-spacing: 2px;
 }
 
+.Quiz-title-box {
+    margin-top: 10px;
+}
+
 .Quiz-title-smaller-box {
     margin-top: 20px;
 }
@@ -20,4 +24,8 @@
 
 .Quiz-controlls-box * {
     margin: 15px;
+}
+
+.Quiz-controlls-box-bottom {
+    margin-bottom: 20px;
 }

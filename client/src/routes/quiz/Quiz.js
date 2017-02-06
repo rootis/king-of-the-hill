@@ -91,8 +91,9 @@ export default class Quiz extends Component {
         let quiz;
         let content;
         let startButton;
+        let quizStarted = (this.state.participant && this.state.participant.startTimeStamp);
 
-        if (this.state.participant && this.state.participant.startTimeStamp) {
+        if (quizStarted) {
             quiz = (
                 <Questions onChange={this.handleChange} participantId={this.state.participant._id} name="questions" value={this.state.quiz.questions} updateParticipantQuiz={this.updateParticipantQuiz}/>
             );
@@ -106,11 +107,11 @@ export default class Quiz extends Component {
         if (this.state.quiz) {
             content = (
                 <div>
-                    <div>
+                    <div className="Quiz-title-box">
                         <span className="Quiz-title">{this.state.quiz ? this.state.quiz.title : ''}</span>
                     </div>
                     <div className="Quiz-title-smaller-box">
-                        <span className="Quiz-title-smaller">Prize: {this.state.quiz ? this.state.quiz.prize : ''}</span>
+                        <span className="Quiz-title-smaller">Total score: {quizStarted ? this.state.participant.totalScore : '0'}</span>
                     </div>
                     {quiz}
                 </div>
@@ -119,10 +120,10 @@ export default class Quiz extends Component {
 
         return (
             <div>
-                <Logo bottomSpacing={true}/>
+                <Logo bottomSpacing={!quizStarted}/>
                 {content}
-                <HorizontalLine/>
-                <div className="Quiz-controlls-box">
+                <HorizontalLine smallMargins={quizStarted}/>
+                <div className={'Quiz-controlls-box-bottom' + (quizStarted ? '' : ' Quiz-controlls-box')}>
                     {startButton}
                     <Button link="/" negative={true} text="Home Page"/>
                 </div>
