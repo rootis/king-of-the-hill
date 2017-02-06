@@ -79,7 +79,6 @@ export default class Quiz extends Component {
             if (response.status >= 400) {
                 console.error(response.json);
             } else {
-                console.log(response.json);
                 this.updateParticipant(response.json);
             }
         }, function (error) {
