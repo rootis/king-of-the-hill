@@ -22,8 +22,20 @@ export default class CreationForm extends Component {
 
     handleChange = (event) => {
         let quiz = FormUtils.handleChange(event, this.state.quiz);
-        this.setState({quiz: quiz, errors: []});
+        let filteredErrors = this.filterErrors(event.target.name);
+
+        this.setState({quiz: quiz, errors: filteredErrors});
     };
+
+    filterErrors(name) {
+        if (this.state.errors[name]) {
+            delete this.state.errors[name];
+        } else if (name.indexOf('.') > -1) {
+            delete this.state.errors[name.substr(name.indexOf('.') + 1)];
+        }
+
+        return this.state.errors;
+    }
 
     handleSave = (event) => {
         event.preventDefault();

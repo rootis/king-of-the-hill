@@ -93,7 +93,6 @@ export default class Question extends Component {
                 </div>
                 <div className="QuizQuestion-text-box">
                     <p><strong>Question: </strong>{this.props.value.text}</p>
-
                 </div>
                 <Answers value={this.props.value.answers} name="answers" onChange={this.handleChange} type={this.props.value.type}/>
                 <Button onClick={this.submitAnswer} text="Submit Answer" mid={true}/>

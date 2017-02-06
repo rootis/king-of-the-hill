@@ -8,6 +8,10 @@ export default class Questions extends Component {
         this.startTimer();
     }
 
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
     handleChange = (event) => {
         this.props.onChange(this.updateEvent(event));
     };
@@ -20,7 +24,7 @@ export default class Questions extends Component {
     }
 
     startTimer() {
-        setInterval(this.decreaseQuestionScore, 1000);
+        this.interval = setInterval(this.decreaseQuestionScore, 1000);
     }
 
     decreaseQuestionScore = () => {
