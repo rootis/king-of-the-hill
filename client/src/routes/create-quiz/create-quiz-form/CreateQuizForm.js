@@ -60,7 +60,7 @@ export default class CreationForm extends Component {
                     <InputWide label="QUIZ TITLE" error={this.state.errors['title']} placeholder="Unique Quiz Title" onChange={this.handleChange} name="title" value={this.state.quiz.title}/>
                     <TextareaWide label="PRIZE" error={this.state.errors['prize']} onChange={this.handleChange} placeholder="Prize for the King" name="prize" value={this.state.quiz.prize}></TextareaWide>
                     <HorizontalLine midMargins={true}/>
-                    <Questions onChange={this.handleChange} name="questions" value={this.state.quiz.questions}/>
+                    <Questions error={this.state.errors['questions']} onChange={this.handleChange} name="questions" value={this.state.quiz.questions}/>
                 </Form>
             );
         }

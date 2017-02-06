@@ -1,0 +1,23 @@
+.Questions-title-box {
+    clear: both;
+    height: 25px;
+}
+
+.Questions-title-left-box {
+    float: left;
+    font-size: 0.8em;
+    text-align: right;
+    width: 30%;
+}
+
+.Questions-title-right-box {
+    float: right;
+    left: -25px;
+    position: relative;
+    top: -5px;
+    width: 65%;
+}
+
+.Questions-title-right-box img {
+    cursor: pointer;
+}

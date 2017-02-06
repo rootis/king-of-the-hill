@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import Question from "../question/Question";
 import QuestionEntity from "../../../model/entities/QuestionEntity";
 import QuestionTypeEnum from "../../../model/common/QuestionTypeEnum";
+import AddIcon from "./add.png";
+import "./Questions.css";
 
 export default class Questions extends Component {
 
@@ -53,7 +55,15 @@ export default class Questions extends Component {
     render() {
         return (
             <div>
-                <h1 onClick={this.addQuestion}>Questions. Click to add</h1>
+                <div className={'Questions-title-box'}>
+                    <div className={'Questions-title-left-box'}>
+                        <span>{this.props.error ? this.props.error : 'QUESTIONS'}</span>
+                    </div>
+                    <div className={'Questions-title-right-box'}>
+                        <img onClick={this.addQuestion} src={AddIcon} alt="Add Question"/>
+                    </div>
+                </div>
+
                 {Object.keys(this.props.value).map((key) =>
                     <Question key={key} name={key} onChange={this.handleChange} removeQuestion={this.removeQuestion} value={this.props.value[key]}/>
                 )}

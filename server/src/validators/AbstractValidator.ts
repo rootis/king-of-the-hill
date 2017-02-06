@@ -25,6 +25,22 @@ export abstract class AbstractValidator {
         return true;
     }
 
+    protected validateObjectPropertiesRequired(attribute: string, errorMessage: string): boolean {
+        if (!this.object || !this.object[attribute] || typeof this.object[attribute] !== 'object') {
+            this.errors[attribute] = errorMessage;
+            return false;
+        }
+
+        for (let key in this.object[attribute]) {
+            if (this.object[attribute].hasOwnProperty(key)) {
+                return true;
+            }
+        }
+
+        this.errors[attribute] = errorMessage;
+        return false;
+    }
+
     protected validateTooLong(attribute: string, maxLength: number, errorMessage: string): boolean {
         if (this.object && this.object[attribute] && this.object[attribute].length > maxLength) {
             this.errors[attribute] = errorMessage;

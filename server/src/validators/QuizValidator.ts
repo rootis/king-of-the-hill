@@ -14,6 +14,7 @@ export default class QuizValidator extends AbstractValidator {
     validate(): Promise<boolean> {
         this.validateRequired('prize', 'Quiz prize is required');
         this.validateTitle();
+        this.validateQuestions();
 
         return new Promise<boolean>((resolve: (value: boolean) => void, reject: (value: { [key: string]: string }) => void) => {
             let searchBy: any = {code: this.object['code']};
@@ -31,9 +32,16 @@ export default class QuizValidator extends AbstractValidator {
 
     private validateTitle(): void {
         let attribute: string = 'title';
+
         this.validateRequired(attribute, 'Quiz title is required');
         this.validateTooLong(attribute, 40, 'Quiz title is too long');
         this.validateTooShort(attribute, 4, 'Quiz title is too short');
+    }
+
+    private validateQuestions(): void {
+        let attribute: string = 'questions';
+
+        this.validateObjectPropertiesRequired(attribute, 'At least one question is required');
     }
 
 }
