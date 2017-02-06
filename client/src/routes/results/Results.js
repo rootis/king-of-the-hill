@@ -43,6 +43,7 @@ export default class Results extends Component {
     };
 
     updateBoard = (board) => {
+        this.setLoadInfoTimeout();
         this.setState({
             participants: board.participants
         });
