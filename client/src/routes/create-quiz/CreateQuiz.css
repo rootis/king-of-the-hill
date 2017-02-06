@@ -2,3 +2,30 @@
     margin: auto;
     max-width: 800px;
 }
+
+.CreateQuiz-row-box {
+    clear: both;
+    height:25px;
+    padding-top: 10px;
+    position: relative;
+}
+
+.CreateQuiz-row-left-box {
+    float: left;
+    font-size: 0.8em;
+    text-align: right;
+    width: 30%;
+}
+
+.CreateQuiz-row-right-box {
+    float: right;
+    left: -25px;
+    position: relative;
+    top: -5px;
+    width: 65%;
+}
+
+.CreateQuiz-row-right-box img {
+    cursor: pointer;
+}
+

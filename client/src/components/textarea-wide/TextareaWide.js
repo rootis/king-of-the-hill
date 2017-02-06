@@ -12,7 +12,7 @@ export default class TextareaWide extends Component {
                     </label>
                 </div>
                 <div className={'TextareaWide-right-box'}>
-                    <textarea className={'TextareaWide' + (this.props.error ? ' TextareaWide-error' : '')} placeholder={this.props.placeholder} name={this.props.name} onChange={this.props.onChange} value={this.props.value} />
+                    <textarea className={'TextareaWide' + (this.props.error ? ' TextareaWide-error' : '') + (this.props.resize ? '' : ' TextareaWide-no-resize')} placeholder={this.props.placeholder} name={this.props.name} onChange={this.props.onChange} value={this.props.value} />
                 </div>
             </div>
         );

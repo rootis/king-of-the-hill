@@ -15,7 +15,7 @@ export default class Button extends Component {
 
     render() {
         return (
-            <span className={'Button' + (this.props.negative ? ' Button-negative' : '')} onClick={this.handleNavigation}>
+            <span className={'Button' + (this.props.negative ? ' Button-negative' : '') + (this.props.small ? ' Button-small' : '')} onClick={this.handleNavigation}>
                 {this.props.text}
             </span>
         );
