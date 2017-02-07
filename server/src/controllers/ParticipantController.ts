@@ -12,8 +12,16 @@ export default class ParticipantController extends AbstractController {
     private participantService = new ParticipantService();
 
     constructor(app: Application) {
-        super();
-        this.registerRoutes(app);
+        super(app);
+    }
+
+    registerRoutes(app: Application): void {
+        let urlPrefix: string = Constants.REST_API_URL_PREFIX + '/participant';
+
+        app.post(urlPrefix + '/join', this.joinQuiz);
+        app.get(urlPrefix + '/:id', this.getParticipantQuiz);
+        app.post(urlPrefix + '/start-quiz', this.startQuiz);
+        app.post(urlPrefix + '/answer', this.postAnswer);
     }
 
     joinQuiz = (request: Request, response: Response): void => {
@@ -43,14 +51,5 @@ export default class ParticipantController extends AbstractController {
             response.send(participantQuiz);
         }).catch((err) => response.status(500).send(err));
     };
-
-    private registerRoutes(app: Application): void {
-        let urlPrefix: string = Constants.REST_API_URL_PREFIX + '/participant';
-
-        app.post(urlPrefix + '/join', this.joinQuiz);
-        app.get(urlPrefix + '/:id', this.getParticipantQuiz);
-        app.post(urlPrefix + '/start-quiz', this.startQuiz);
-        app.post(urlPrefix + '/answer', this.postAnswer);
-    }
 
 }

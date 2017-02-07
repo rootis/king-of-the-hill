@@ -1,10 +1,16 @@
 'use strict';
 
-import {Response} from "express-serve-static-core";
+import {Application, Response} from "express-serve-static-core";
 
 import Constants from "../common/Constants";
 
 export abstract class AbstractController {
+
+    constructor(app: Application) {
+        this.registerRoutes(app);
+    }
+
+    abstract registerRoutes(app: Application): void;
 
     protected sendErrors(response: Response, errors: any): void {
         if (errors && errors[Constants.VALIDATION_ERRORS_PROPERTY]) {

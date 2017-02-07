@@ -13,8 +13,13 @@ export default class BoardController extends AbstractController {
     private participantService = new ParticipantService();
 
     constructor(app: Application) {
-        super();
-        this.registerRoutes(app);
+        super(app);
+    }
+
+    registerRoutes(app: Application): void {
+        let urlPrefix: string = Constants.REST_API_URL_PREFIX + '/board';
+
+        app.get(urlPrefix + '/:quizCode', this.getBoardInformation);
     }
 
     getBoardInformation = (request: Request, response: Response): void => {
@@ -26,11 +31,5 @@ export default class BoardController extends AbstractController {
             response.status(400).send({quizCode: 'Quiz code is required'});
         }
     };
-
-    private registerRoutes(app: Application): void {
-        let urlPrefix: string = Constants.REST_API_URL_PREFIX + '/board';
-
-        app.get(urlPrefix + '/:quizCode', this.getBoardInformation);
-    }
 
 }
