@@ -38,7 +38,7 @@ export default class QuizValidator extends AbstractValidator {
         let attribute: string = 'title';
 
         this.validateRequired(attribute, 'Quiz title is required');
-        this.validateTooLong(attribute, 40, 'Quiz title is too long');
+        this.validateTooLong(attribute, 50, 'Quiz title is too long');
         this.validateTooShort(attribute, 4, 'Quiz title is too short');
     }
 
