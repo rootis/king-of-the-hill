@@ -12,7 +12,8 @@ export default class QuizController extends AbstractController {
     private quizService = new QuizService();
 
     constructor(app: Application) {
-        super(app);
+        super();
+        this.registerRoutes(app);
     }
 
     registerRoutes(app: Application): void {
