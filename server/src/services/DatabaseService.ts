@@ -43,8 +43,8 @@ export default class DatabaseService {
         });
     }
 
-    static updateById(collection: string, entity: AbstractEntity): Promise<AbstractEntity> {
-        return new Promise(function (resolve: (value: AbstractEntity) => void, reject: (value: any) => void) {
+    static updateById<T extends AbstractEntity>(collection: string, entity: T): Promise<T> {
+        return new Promise(function (resolve: (value: T) => void, reject: (value: any) => void) {
             DatabaseService.getInstance().then((db: Db) => {
                 let searchBy: any = {_id: new mongo.ObjectID(entity._id)};
                 delete entity._id;
