@@ -12,7 +12,8 @@ export default class ParticipantController extends AbstractController {
     private participantService = new ParticipantService();
 
     constructor(app: Application) {
-        super(app);
+        super();
+        this.registerRoutes(app);
     }
 
     registerRoutes(app: Application): void {
