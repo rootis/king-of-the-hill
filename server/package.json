@@ -12,18 +12,18 @@
   },
   "homepage": "https://github.com/rootis/king-of-the-hill#readme",
   "devDependencies": {
-    "@types/express": "^4.0.35",
-    "@types/jasmine": "^2.5.41",
-    "@types/mongodb": "^2.1.37",
-    "@types/node": "^7.0.4",
-    "jasmine": "^2.5.3",
-    "nodemon": "^1.11.0",
-    "typescript": "^2.1.5"
+    "@types/express": "4.0.35",
+    "@types/jasmine": "2.5.41",
+    "@types/mongodb": "2.1.37",
+    "@types/node": "7.0.4",
+    "jasmine": "2.5.3",
+    "nodemon": "1.11.0",
+    "typescript": "2.1.5"
   },
   "dependencies": {
-    "body-parser": "^1.16.0",
-    "express": "^4.14.1",
-    "mongodb": "^2.2.22"
+    "body-parser": "1.16.0",
+    "express": "4.14.1",
+    "mongodb": "2.2.22"
   },
   "scripts": {
     "compile": "tsc",
