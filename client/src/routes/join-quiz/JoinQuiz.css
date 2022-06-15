@@ -1,5 +1,17 @@
 .JoinQuiz {
-    height: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
     margin: auto;
     max-width: 515px;
+}
+
+.JoinQuiz > * {
+    margin: auto;
+}
+
+@media screen and (max-width: 515px) {
+    .JoinQuiz {
+        flex-direction: column;
+    }
 }
